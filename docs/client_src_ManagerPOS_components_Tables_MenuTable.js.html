@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: client/src/CustomerPOS/Menu.js</title>
+    <title>JSDoc: Source: client/src/ManagerPOS/components/Tables/MenuTable.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: client/src/CustomerPOS/Menu.js</h1>
+    <h1 class="page-title">Source: client/src/ManagerPOS/components/Tables/MenuTable.js</h1>
 
     
 
@@ -26,241 +26,224 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
-import './Menu.css'; // Make sure to create a CSS file with this name
-import defaultDrinkImage from './assets/boba.svg';
-import { TranslateBulk, LanguageDialog } from '../Translate';
-import { AddOnDialog } from './AddOns';
-import MenuItemCard from './components/MenuItemCard';
-import { CheckoutDialog } from './components/Checkout';
-import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import alleyLogo from './assets/the_alley_logo.png';
-import theme from '../theme';
-import { Weather } from '../Weather';
-import AccountButton from '../AccountButton';
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import {Edit as EditIcon, Delete as DeleteIcon} from '@mui/icons-material';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+} from '@mui/x-data-grid';
+import { EditDialog, handleUpdate } from './MenuTableEditDialog';
+import { TranslateBulk, TranslateText } from '../../../Translate';
 
-// const serverURL = 'http://localhost:9000';
-// const serverURL = 'https://project-3-server-ljp9.onrender.com';
+// const serverURL = 'https://project-3-server-ljp9.onrender.com' || 'http://localhost:9000';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+console.log(serverURL);
 
 /**
- * The Menu for the Customer GUI.
- * @returns html for the Menu and associated dialogs
+ * AddToolbar is a functional component that provides a toolbar with an add button for the MenuTable.
+ * It triggers a dialog for adding a new menu item when the add button is clicked.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.menuItems - The current list of menu items.
+ * @param {Function} props.setMenuItems - Function to update the list of menu items.
+ * @param {Object} props.isOpen - Object containing the open state for each menu item's edit dialog.
+ * @param {Function} props.setIsOpen - Function to update the open state for the edit dialogs.
+ * @param {string} props.translationAdd - Translated text for the 'Create New Menu Item' button.
+ *
+ * @returns {ReactElement} A toolbar component with an add button.
  */
-const Menu = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [ isOpen, setIsOpen ] = useState({});
-  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
-  const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
-  const [ price, setPrice ] = useState(0);
-  const [ openCheckout, setOpenCheckout ] = useState(false);
-  const [ notes, setNotes ] = useState([]);
-  const [ doTL, setDoTL ] = useState(false);
-  const [ translationMenu, setTranslationMenu ] = useState([]);
-  const [ translationAddOns, setTranslationAddOns ] = useState([]);
-  const [ addOns, setAddOns ] = useState([]);
 
-  useEffect(() => {
-    var abortController = new AbortController();
-    // gets the meu and add ons
-    const getMenu = async () => {
-      try {
-        var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
-        var data = await response.json();
-        for (let i = 0; i &lt; data.menu.length; i++) {
-          data.menu[i].enName = data.menu[i].name;
-        }
-        setMenuItems(data.menu);
+const AddToolbar = ({menuItems, setMenuItems, isOpen, setIsOpen, translationAdd}) => {
 
-        response = await fetch(serverURL+'/addOns', {signal: abortController.signal});
-        data = await response.json();
-        for (let i = 0; i &lt; data.addOns.length; ++i) {
-          data.addOns[i].enName = data.addOns[i].name;
-        }
-        setAddOns(data.addOns);
-        setDoTL(true);
-      }
-      catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-    getMenu();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
-  // console.log(menuItems);
-  // console.log(addOns);
-
-  // translates the menu and add ons
-  useEffect(() => {
-    if (doTL) {
-      var temp = [];
-      for (const menuItem of menuItems) {
-        temp.push(menuItem.enName);
-      }
-      // setTranslation(TranslateBulk(temp));
-      TranslateBulk(temp, setTranslationMenu);
-      temp = [];
-      for (const addOn of addOns) {
-        temp.push(addOn.enName);
-      }
-      TranslateBulk(temp, setTranslationAddOns)
-      setDoTL(false);
-    }
-  }, [doTL])
-
-  // sets open boolean for each menu item dialog to false.
-  useEffect(() => {
-    var open = {};
-    for (const item of menuItems) {
-      open[item.id] = false;
-    }
-    setIsOpen(open);
-  }, [menuItems]);
-
-  // sets the name of each menu item to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationMenu.length; ++i) {
-      menuItems[i].name = translationMenu[i];
-    }
-    setMenuItems([...menuItems]);
-  }, [translationMenu])
-
-  // sets the name of each add on to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationAddOns.length; ++i) {
-      addOns[i].name = translationAddOns[i];
-    }
-    setAddOns([...addOns]);
-  }, [translationAddOns])
-
-  /**
-   * Imports all images in a directory
-   * @param {require.context} r - the context of the directory to import from
-   * @returns a dictionary mapping the name of the image file to the image.
-   */
-  const importAll = (r) => {
-    let images = {};
-    r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
-    return images;
+  const handleAdd = () => {
+    // console.log('h');
+    setIsOpen({...isOpen, '': true});
   }
 
-  // let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-
-  const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
-
-  // if (!(menuPicture in images)) {
-  //   menuPicture = 'boba.svg';
-  // }
-
-  // if (Object.entries(isOpen).length === 0) {
-  //   return &lt;div>&lt;/div>
-  // }
-
-  /**
-   * Sets the isOpen state to true for a menu item
-   * @param {String} id - the id of the menu item that was clicked
-   * @returns void
-   */
-  const openDialog = (id) => () => {
-    setIsOpen({...isOpen, [id]: true});
-  }
-
-  // console.log(menuItems);
-  // console.log(isOpen);
-
-  // loading
-  for (const item of menuItems) {
-    if (isOpen[item.id] === undefined) {
-      return &lt;div>&lt;/div>
-    }
+  if (isOpen === undefined) {
+    return &lt;div>&lt;/div>
   }
 
   return (
-    &lt;div>
-      &lt;ThemeProvider theme={theme}>
-      &lt;AppBar position="static">
-      &lt;Toolbar>
-      {/* Left Side: Image and Weather Component */}
-      &lt;Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-        &lt;Box sx={{ mb: 1, mt: 1 }}>
-          &lt;img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-        &lt;/Box>
-        &lt;Box sx={{ ml:2 }}>&lt;Weather doTL={doTL} />&lt;/Box>
-        
-      &lt;/Box>
+    &lt;>
+    {isOpen[''] &amp;&amp; &lt;EditDialog key={''} id='' menu={menuItems} setMenu={setMenuItems} open={isOpen} setOpen={setIsOpen}/>}
+    &lt;GridToolbarContainer>
+      &lt;Button color='primary' startIcon={&lt;Box sx={{mb:.5}}>&lt;div>+&lt;/div>&lt;/Box>} onClick={handleAdd}>
+        {translationAdd || 'Create New Menu Item'}
+      &lt;/Button>
+    &lt;/GridToolbarContainer>
+    &lt;/>
+  )
+}
 
-      {/* Right Side: Icon Buttons */}
-      &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
-        &lt;LanguageDialog setDoTL={setDoTL} />
-        &lt;IconButton 
-          onClick={() => setOpenCheckout(true)} 
-          aria-label="View Order and Checkout" 
-          sx={{ color: 'white' }} // Apply white color to the icon
-        >
-          &lt;Badge badgeContent={orderMenuItems.length} color='secondary'>
-            &lt;ShoppingCartIcon />
-          &lt;/Badge>
-        &lt;/IconButton>
-        &lt;AccountButton />
-      &lt;/Box>
-    &lt;/Toolbar>
-    &lt;/AppBar>
-    &lt;/ThemeProvider>
-    &lt;Box sx={{ m:3}}>&lt;/Box>
-      {/* &lt;LanguageDialog />
-      &lt;Button onClick={() => setOpenCheckout(true)}>View Order and Checkout&lt;/Button> */}
-      &lt;div className="menu">
-        {/* &lt;button> */}
-        {menuItems.map((item, i) => {
-          let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-          // if no image set to default
-          if (!(menuPicture in images)) {
-            menuPicture = 'boba.png';
-          }
-          return (
-            &lt;div>
-            &lt;button onClick={openDialog(item.id)} className='item-card-btn'>
-              &lt;MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
-            &lt;/button> 
-            &lt;Box sx={{ m:3}}>&lt;/Box>
-            &lt;/div>
-          )})}
-        {/* &lt;/button> */}
-      &lt;/div>
-      {/* &lt;LanguageDialog /> */}
-      {menuItems.map(item => {
+/**
+ * MenuTable is a React component that displays a table of menu items.
+ * It handles CRUD operations for menu items, including adding new items, editing existing items, and deleting items.
+ * The component fetches menu items from a server and handles loading and error states.
+ * It also incorporates translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed.
+ *
+ * @returns {ReactElement} A DataGrid element containing the menu items.
+ *
+ * @example
+ * &lt;MenuTable doTL={true} />
+ */
+
+const MenuTable = ({doTL}) => {
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [ isOpen, setIsOpen ] = useState({});
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationAdd, setTranslationAdd ] = useState('');
+
+  useEffect(() => {
+    fetch(serverURL+'/menu')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMenuItems(data.menu);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch menu items:", error);
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (doTL) {
+      var headers = ['Name', 'Price', 'Actions'];
+      TranslateBulk(headers, setTranslationHeaders);
+      TranslateText('Create New Menu Item', setTranslationAdd);
+    }
+  }, [doTL])
+
+  const handleDelete = (id) => () => {
+    console.log(id);
+    handleUpdate('delete', {'id': id});
+    setMenuItems(menuItems.filter((item) => item.id !== id))
+  }
+
+  const handleEdit = (id) => () => {
+    console.log(id);
+    var open = {};
+    Object.entries(isOpen).map((k,v) => open[k] = v);
+    open[id] = true;
+    setIsOpen(open);
+  }
+
+  const columns = [
+    { field: 'id', headerName: 'ID', headerClassName: 'super-app-theme--header', headerAlign: 'left', align: 'left', flex: 1, minWidth: 50, editable: false, type: 'number'},
+    {
+      field: 'name',
+      headerName: translationHeaders[0] || 'Name',
+      headerClassName: 'super-app-theme--header',
+      flex: 2,
+      minWidth: 150,
+      editable: false,
+    },
+    {
+      field: 'price',
+      headerName: translationHeaders[1] || 'Price',
+      headerClassName: 'super-app-theme--header',
+      headerAlign: 'left', 
+      align: 'left', 
+      flex: 1,
+      type: 'number',
+      minWidth: 50,
+      editable: false,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: translationHeaders[2] || 'Actions',
+      headerClassName: 'super-app-theme--header',
+      minWidth: 100,
+      cellClassName: 'actions',
+      getActions: ({id}) => {
+        return [
+          &lt;GridActionsCellItem 
+            icon={&lt;EditIcon />} // Using the Edit icon
+            label='Edit'
+            onClick={handleEdit(id)}
+          />,
+          &lt;GridActionsCellItem 
+            icon={&lt;DeleteIcon style={{ color: 'red' }} />} // Using the Delete icon
+            label='Delete'
+            onClick={handleDelete(id)}
+          />,
+        ]
+      }
+    }
+  ];
+  // var openDialog = {}
+  // menuItems.forEach((item, index) => openDialog[item.id] = false);
+
+  useEffect(() => {
+    var openDialog = {}
+    menuItems.forEach((item, index) => openDialog[item.id] = false);
+    setIsOpen(openDialog);
+  }, [menuItems]);
+
+  if (loading) {
+    return &lt;p>Loading menu items...&lt;/p>;
+  }
+
+  if (error) {
+    return &lt;p>Error loading menu items: {error}&lt;/p>;
+  }
+
+  if (isOpen === undefined || Object.entries(isOpen).length === 0) {
+    return &lt;div>&lt;/div>
+  }
+
+  return (
+    &lt;>
+    {
+      menuItems.map((item) => {
         return (
           &lt;>
-          {isOpen[item.id] &amp;&amp; &lt;AddOnDialog 
-                                key={item.id}
-                                menuItem={item}
-                                open={isOpen} setOpen={setIsOpen}
-                                orderMenuItems={orderMenuItems}
-                                orderMenuItemAddOns={orderMenuItemAddOns}
-                                totalPrice={price} setTotalPrice={setPrice} 
-                                notes={notes}
-                                addOns={addOns}
-                              />}
+          {isOpen[item.id] &amp;&amp; &lt;EditDialog key={item.id} menu={menuItems} setMenu={setMenuItems} id={item.id} open={isOpen} setOpen={setIsOpen} />}
           &lt;/>
-        )
-      })}
-      {openCheckout &amp;&amp; &lt;CheckoutDialog 
-                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
-                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
-                          price={price} setPrice={setPrice}
-                          notes={notes} setNotes={setNotes}
-                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
-                          addOns={addOns}
-                      />}
-    &lt;/div>
+        );
+      })
+    }
+    &lt;Box sx={{ width: '100%', '&amp; .super-app-theme--header': {
+      backgroundColor: '#2E4647', color: 'white', fontWeight: 'bold'},}}>
+      &lt;DataGrid
+        // onCellEditStop={handleEdit}
+        rows={menuItems}
+        columns={columns}
+        slots={{
+          toolbar: AddToolbar,
+        }}
+        slotProps={{
+          toolbar: { menuItems, setMenuItems, isOpen, setIsOpen, translationAdd }
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{field: 'id', sort: 'asc'}]
+          }
+        }}
+      />
+    &lt;/Box>
+    &lt;/>
   );
 };
 
-export default Menu;
-</code></pre>
+export default MenuTable;</code></pre>
         </article>
     </section>
 

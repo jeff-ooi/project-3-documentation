@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: client/src/CustomerPOS/Menu.js</title>
+    <title>JSDoc: Source: client/src/ManagerPOS/components/Reports/SalesReport.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: client/src/CustomerPOS/Menu.js</h1>
+    <h1 class="page-title">Source: client/src/ManagerPOS/components/Reports/SalesReport.js</h1>
 
     
 
@@ -26,240 +26,121 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
-import './Menu.css'; // Make sure to create a CSS file with this name
-import defaultDrinkImage from './assets/boba.svg';
-import { TranslateBulk, LanguageDialog } from '../Translate';
-import { AddOnDialog } from './AddOns';
-import MenuItemCard from './components/MenuItemCard';
-import { CheckoutDialog } from './components/Checkout';
-import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import alleyLogo from './assets/the_alley_logo.png';
-import theme from '../theme';
-import { Weather } from '../Weather';
-import AccountButton from '../AccountButton';
-
-// const serverURL = 'http://localhost:9000';
-// const serverURL = 'https://project-3-server-ljp9.onrender.com';
-const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider, DateTimePicker} from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { ThemeProvider,  Dialog, Button, DialogTitle, DialogContent } from '@mui/material';
+import { Box } from '@mui/material';
+import SalesReportTable from './SalesReportTable';
+import theme from '../../../theme';
+import { TranslateBulk } from '../../../Translate';
+// import './Reports.css';
 
 /**
- * The Menu for the Customer GUI.
- * @returns html for the Menu and associated dialogs
+ * SalesReport is a React component that renders a user interface for generating a sales report.
+ * It allows users to select start and end dates and, upon submission, displays a table with the sales report.
+ * The component handles state for date selection, loading the report table, and includes internationalization support with translation features.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the form for generating a sales report or null if the dialog is not open.
+ *
+ * @example
+ * &lt;SalesReport isOpen={true} onClose={() => {}} />
  */
-const Menu = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [ isOpen, setIsOpen ] = useState({});
-  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
-  const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
-  const [ price, setPrice ] = useState(0);
-  const [ openCheckout, setOpenCheckout ] = useState(false);
-  const [ notes, setNotes ] = useState([]);
-  const [ doTL, setDoTL ] = useState(false);
-  const [ translationMenu, setTranslationMenu ] = useState([]);
-  const [ translationAddOns, setTranslationAddOns ] = useState([]);
-  const [ addOns, setAddOns ] = useState([]);
 
-  useEffect(() => {
-    var abortController = new AbortController();
-    // gets the meu and add ons
-    const getMenu = async () => {
-      try {
-        var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
-        var data = await response.json();
-        for (let i = 0; i &lt; data.menu.length; i++) {
-          data.menu[i].enName = data.menu[i].name;
-        }
-        setMenuItems(data.menu);
+const SalesReport = ({ isOpen, onClose }) => {
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [showReportTable, setShowReportTable] = useState(false);
+    const [ translationButtons, setTranslationButtons] = useState([]);
+    const [ translationText, setTranslationText ] = useState([]);
 
-        response = await fetch(serverURL+'/addOns', {signal: abortController.signal});
-        data = await response.json();
-        for (let i = 0; i &lt; data.addOns.length; ++i) {
-          data.addOns[i].enName = data.addOns[i].name;
-        }
-        setAddOns(data.addOns);
-        setDoTL(true);
+    useEffect(() => {
+      var buttons = ['Cancel', 'Create Report'];
+      TranslateBulk(buttons, setTranslationButtons);
+      var text = ['Enter Start and End Times for Sales Report', 'Start Date and Time', 'End Date and Time'];
+      TranslateBulk(text, setTranslationText);
+    }, [])
+
+    const handleClose = (event, reason) => {
+      if (reason &amp;&amp; reason === 'backdropClick') {
+        // Optionally prevent dialog from closing if clicked outside
+        return;
       }
-      catch (error) {
-        console.error('Error fetching data: ', error);
-      }
+      onClose();
     };
-    getMenu();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
-  // console.log(menuItems);
-  // console.log(addOns);
 
-  // translates the menu and add ons
-  useEffect(() => {
-    if (doTL) {
-      var temp = [];
-      for (const menuItem of menuItems) {
-        temp.push(menuItem.enName);
-      }
-      // setTranslation(TranslateBulk(temp));
-      TranslateBulk(temp, setTranslationMenu);
-      temp = [];
-      for (const addOn of addOns) {
-        temp.push(addOn.enName);
-      }
-      TranslateBulk(temp, setTranslationAddOns)
-      setDoTL(false);
-    }
-  }, [doTL])
+    const handleCreateReportClick = () => {
+    setShowReportTable(true); // When the button is clicked, set showReportTable to true
+    };
 
-  // sets open boolean for each menu item dialog to false.
-  useEffect(() => {
-    var open = {};
-    for (const item of menuItems) {
-      open[item.id] = false;
-    }
-    setIsOpen(open);
-  }, [menuItems]);
+    if (!isOpen) return null;
 
-  // sets the name of each menu item to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationMenu.length; ++i) {
-      menuItems[i].name = translationMenu[i];
-    }
-    setMenuItems([...menuItems]);
-  }, [translationMenu])
-
-  // sets the name of each add on to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationAddOns.length; ++i) {
-      addOns[i].name = translationAddOns[i];
-    }
-    setAddOns([...addOns]);
-  }, [translationAddOns])
-
-  /**
-   * Imports all images in a directory
-   * @param {require.context} r - the context of the directory to import from
-   * @returns a dictionary mapping the name of the image file to the image.
-   */
-  const importAll = (r) => {
-    let images = {};
-    r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
-    return images;
-  }
-
-  // let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-
-  const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
-
-  // if (!(menuPicture in images)) {
-  //   menuPicture = 'boba.svg';
-  // }
-
-  // if (Object.entries(isOpen).length === 0) {
-  //   return &lt;div>&lt;/div>
-  // }
-
-  /**
-   * Sets the isOpen state to true for a menu item
-   * @param {String} id - the id of the menu item that was clicked
-   * @returns void
-   */
-  const openDialog = (id) => () => {
-    setIsOpen({...isOpen, [id]: true});
-  }
-
-  // console.log(menuItems);
-  // console.log(isOpen);
-
-  // loading
-  for (const item of menuItems) {
-    if (isOpen[item.id] === undefined) {
-      return &lt;div>&lt;/div>
-    }
-  }
-
-  return (
-    &lt;div>
-      &lt;ThemeProvider theme={theme}>
-      &lt;AppBar position="static">
-      &lt;Toolbar>
-      {/* Left Side: Image and Weather Component */}
-      &lt;Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-        &lt;Box sx={{ mb: 1, mt: 1 }}>
-          &lt;img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-        &lt;/Box>
-        &lt;Box sx={{ ml:2 }}>&lt;Weather doTL={doTL} />&lt;/Box>
-        
-      &lt;/Box>
-
-      {/* Right Side: Icon Buttons */}
-      &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
-        &lt;LanguageDialog setDoTL={setDoTL} />
-        &lt;IconButton 
-          onClick={() => setOpenCheckout(true)} 
-          aria-label="View Order and Checkout" 
-          sx={{ color: 'white' }} // Apply white color to the icon
-        >
-          &lt;Badge badgeContent={orderMenuItems.length} color='secondary'>
-            &lt;ShoppingCartIcon />
-          &lt;/Badge>
-        &lt;/IconButton>
-        &lt;AccountButton />
-      &lt;/Box>
-    &lt;/Toolbar>
-    &lt;/AppBar>
+return (
+  &lt;Dialog open={isOpen} onClose={handleClose} maxWidth="md">
+  &lt;DialogTitle>{translationText[0] || 'Enter Start and End Times for Sales Report'}&lt;/DialogTitle>
+  &lt;DialogContent>
+    &lt;ThemeProvider theme={theme}>
+      &lt;LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* &lt;form className="sales-report-form"> */}
+          &lt;DateTimePicker
+            sx={{ marginTop: 1 ,width: '100%'}}
+            label={translationText[1] || "Start Date and Time"}
+            value={startDate}
+            onChange={(newValue) => setStartDate(newValue)}
+            renderInput={(params) => &lt;TextField {...params} fullWidth />}
+            ampm={false}
+            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+            inputFormat="yyyy-MM-dd HH:mm:ss"
+            minutesStep={1}
+            secondsStep={1}
+          />
+          &lt;Box sx={{ m: 2 }} />
+          &lt;DateTimePicker
+            sx={{ marginTop: 1 ,width: '100%'}}
+            label={translationText[2] || "End Date and Time"}
+            value={endDate}
+            onChange={(newValue) => setEndDate(newValue)}
+            renderInput={(params) => &lt;TextField {...params} fullWidth />}
+            ampm={false}
+            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+            inputFormat="yyyy-MM-dd HH:mm:ss"
+            minutesStep={1}
+            secondsStep={1}
+          />
+          &lt;Box sx={{ m: 2 }} />
+          {/* &lt;div className="sales-report-actions"> */}
+          &lt;Box sx={{ display: 'flex', justifyContent: 'right' }}>
+            &lt;Button sx={{m:1}}  onClick={onClose} color="primary">
+              {translationButtons[0] || 'Cancel'}
+            &lt;/Button>
+            &lt;Button sx={{m:1}} onClick={handleCreateReportClick} color="primary" variant="contained">
+              {translationButtons[1] || 'Create Report'}
+            &lt;/Button>
+            {showReportTable &amp;&amp; (
+              &lt;SalesReportTable
+                isOpen={showReportTable}
+                onClose={() => setShowReportTable(false)}
+                startTime={startDate}
+                endTime={endDate}
+              />
+            )}
+          &lt;/Box>
+          {/* &lt;/div> */}
+        {/* &lt;/form> */}
+      &lt;/LocalizationProvider>
     &lt;/ThemeProvider>
-    &lt;Box sx={{ m:3}}>&lt;/Box>
-      {/* &lt;LanguageDialog />
-      &lt;Button onClick={() => setOpenCheckout(true)}>View Order and Checkout&lt;/Button> */}
-      &lt;div className="menu">
-        {/* &lt;button> */}
-        {menuItems.map((item, i) => {
-          let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-          // if no image set to default
-          if (!(menuPicture in images)) {
-            menuPicture = 'boba.png';
-          }
-          return (
-            &lt;div>
-            &lt;button onClick={openDialog(item.id)} className='item-card-btn'>
-              &lt;MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
-            &lt;/button> 
-            &lt;Box sx={{ m:3}}>&lt;/Box>
-            &lt;/div>
-          )})}
-        {/* &lt;/button> */}
-      &lt;/div>
-      {/* &lt;LanguageDialog /> */}
-      {menuItems.map(item => {
-        return (
-          &lt;>
-          {isOpen[item.id] &amp;&amp; &lt;AddOnDialog 
-                                key={item.id}
-                                menuItem={item}
-                                open={isOpen} setOpen={setIsOpen}
-                                orderMenuItems={orderMenuItems}
-                                orderMenuItemAddOns={orderMenuItemAddOns}
-                                totalPrice={price} setTotalPrice={setPrice} 
-                                notes={notes}
-                                addOns={addOns}
-                              />}
-          &lt;/>
-        )
-      })}
-      {openCheckout &amp;&amp; &lt;CheckoutDialog 
-                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
-                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
-                          price={price} setPrice={setPrice}
-                          notes={notes} setNotes={setNotes}
-                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
-                          addOns={addOns}
-                      />}
-    &lt;/div>
+  &lt;/DialogContent>
+&lt;/Dialog>
   );
 };
 
-export default Menu;
+export default SalesReport;
 </code></pre>
         </article>
     </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: client/src/CustomerPOS/Menu.js</title>
+    <title>JSDoc: Source: client/src/ManagerPOS/pages/Employees.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: client/src/CustomerPOS/Menu.js</h1>
+    <h1 class="page-title">Source: client/src/ManagerPOS/pages/Employees.js</h1>
 
     
 
@@ -26,241 +26,43 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
-import './Menu.css'; // Make sure to create a CSS file with this name
-import defaultDrinkImage from './assets/boba.svg';
-import { TranslateBulk, LanguageDialog } from '../Translate';
-import { AddOnDialog } from './AddOns';
-import MenuItemCard from './components/MenuItemCard';
-import { CheckoutDialog } from './components/Checkout';
-import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import alleyLogo from './assets/the_alley_logo.png';
-import theme from '../theme';
-import { Weather } from '../Weather';
-import AccountButton from '../AccountButton';
-
-// const serverURL = 'http://localhost:9000';
-// const serverURL = 'https://project-3-server-ljp9.onrender.com';
-const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import EmployeesTable from '../components/Tables/EmployeesTable';
+import { TranslateText } from '../../Translate';
 
 /**
- * The Menu for the Customer GUI.
- * @returns html for the Menu and associated dialogs
+ * Employees is a React component that renders a title and a table of employees.
+ * It supports internationalization for the title text and passes the translation flag to the EmployeesTable component.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.doTL - A boolean indicating whether translations should be performed for the title.
+ *
+ * @returns {ReactElement} A component with a title and the EmployeesTable.
+ *
+ * @example
+ * &lt;Employees doTL={true} />
  */
-const Menu = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [ isOpen, setIsOpen ] = useState({});
-  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
-  const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
-  const [ price, setPrice ] = useState(0);
-  const [ openCheckout, setOpenCheckout ] = useState(false);
-  const [ notes, setNotes ] = useState([]);
-  const [ doTL, setDoTL ] = useState(false);
-  const [ translationMenu, setTranslationMenu ] = useState([]);
-  const [ translationAddOns, setTranslationAddOns ] = useState([]);
-  const [ addOns, setAddOns ] = useState([]);
 
-  useEffect(() => {
-    var abortController = new AbortController();
-    // gets the meu and add ons
-    const getMenu = async () => {
-      try {
-        var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
-        var data = await response.json();
-        for (let i = 0; i &lt; data.menu.length; i++) {
-          data.menu[i].enName = data.menu[i].name;
-        }
-        setMenuItems(data.menu);
+const Employees = ({doTL}) => {
+  const [ translationText, setTranslationText ] = useState('');
 
-        response = await fetch(serverURL+'/addOns', {signal: abortController.signal});
-        data = await response.json();
-        for (let i = 0; i &lt; data.addOns.length; ++i) {
-          data.addOns[i].enName = data.addOns[i].name;
-        }
-        setAddOns(data.addOns);
-        setDoTL(true);
-      }
-      catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-    getMenu();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
-  // console.log(menuItems);
-  // console.log(addOns);
-
-  // translates the menu and add ons
-  useEffect(() => {
+  useEffect( () => {
     if (doTL) {
-      var temp = [];
-      for (const menuItem of menuItems) {
-        temp.push(menuItem.enName);
-      }
-      // setTranslation(TranslateBulk(temp));
-      TranslateBulk(temp, setTranslationMenu);
-      temp = [];
-      for (const addOn of addOns) {
-        temp.push(addOn.enName);
-      }
-      TranslateBulk(temp, setTranslationAddOns)
-      setDoTL(false);
+      TranslateText("Employees", setTranslationText);
     }
-  }, [doTL])
+  }, [doTL]);
 
-  // sets open boolean for each menu item dialog to false.
-  useEffect(() => {
-    var open = {};
-    for (const item of menuItems) {
-      open[item.id] = false;
-    }
-    setIsOpen(open);
-  }, [menuItems]);
-
-  // sets the name of each menu item to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationMenu.length; ++i) {
-      menuItems[i].name = translationMenu[i];
-    }
-    setMenuItems([...menuItems]);
-  }, [translationMenu])
-
-  // sets the name of each add on to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationAddOns.length; ++i) {
-      addOns[i].name = translationAddOns[i];
-    }
-    setAddOns([...addOns]);
-  }, [translationAddOns])
-
-  /**
-   * Imports all images in a directory
-   * @param {require.context} r - the context of the directory to import from
-   * @returns a dictionary mapping the name of the image file to the image.
-   */
-  const importAll = (r) => {
-    let images = {};
-    r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
-    return images;
-  }
-
-  // let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-
-  const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
-
-  // if (!(menuPicture in images)) {
-  //   menuPicture = 'boba.svg';
-  // }
-
-  // if (Object.entries(isOpen).length === 0) {
-  //   return &lt;div>&lt;/div>
-  // }
-
-  /**
-   * Sets the isOpen state to true for a menu item
-   * @param {String} id - the id of the menu item that was clicked
-   * @returns void
-   */
-  const openDialog = (id) => () => {
-    setIsOpen({...isOpen, [id]: true});
-  }
-
-  // console.log(menuItems);
-  // console.log(isOpen);
-
-  // loading
-  for (const item of menuItems) {
-    if (isOpen[item.id] === undefined) {
-      return &lt;div>&lt;/div>
-    }
-  }
-
+  // console.log(translationText);
   return (
     &lt;div>
-      &lt;ThemeProvider theme={theme}>
-      &lt;AppBar position="static">
-      &lt;Toolbar>
-      {/* Left Side: Image and Weather Component */}
-      &lt;Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-        &lt;Box sx={{ mb: 1, mt: 1 }}>
-          &lt;img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-        &lt;/Box>
-        &lt;Box sx={{ ml:2 }}>&lt;Weather doTL={doTL} />&lt;/Box>
-        
-      &lt;/Box>
-
-      {/* Right Side: Icon Buttons */}
-      &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
-        &lt;LanguageDialog setDoTL={setDoTL} />
-        &lt;IconButton 
-          onClick={() => setOpenCheckout(true)} 
-          aria-label="View Order and Checkout" 
-          sx={{ color: 'white' }} // Apply white color to the icon
-        >
-          &lt;Badge badgeContent={orderMenuItems.length} color='secondary'>
-            &lt;ShoppingCartIcon />
-          &lt;/Badge>
-        &lt;/IconButton>
-        &lt;AccountButton />
-      &lt;/Box>
-    &lt;/Toolbar>
-    &lt;/AppBar>
-    &lt;/ThemeProvider>
-    &lt;Box sx={{ m:3}}>&lt;/Box>
-      {/* &lt;LanguageDialog />
-      &lt;Button onClick={() => setOpenCheckout(true)}>View Order and Checkout&lt;/Button> */}
-      &lt;div className="menu">
-        {/* &lt;button> */}
-        {menuItems.map((item, i) => {
-          let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-          // if no image set to default
-          if (!(menuPicture in images)) {
-            menuPicture = 'boba.png';
-          }
-          return (
-            &lt;div>
-            &lt;button onClick={openDialog(item.id)} className='item-card-btn'>
-              &lt;MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
-            &lt;/button> 
-            &lt;Box sx={{ m:3}}>&lt;/Box>
-            &lt;/div>
-          )})}
-        {/* &lt;/button> */}
-      &lt;/div>
-      {/* &lt;LanguageDialog /> */}
-      {menuItems.map(item => {
-        return (
-          &lt;>
-          {isOpen[item.id] &amp;&amp; &lt;AddOnDialog 
-                                key={item.id}
-                                menuItem={item}
-                                open={isOpen} setOpen={setIsOpen}
-                                orderMenuItems={orderMenuItems}
-                                orderMenuItemAddOns={orderMenuItemAddOns}
-                                totalPrice={price} setTotalPrice={setPrice} 
-                                notes={notes}
-                                addOns={addOns}
-                              />}
-          &lt;/>
-        )
-      })}
-      {openCheckout &amp;&amp; &lt;CheckoutDialog 
-                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
-                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
-                          price={price} setPrice={setPrice}
-                          notes={notes} setNotes={setNotes}
-                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
-                          addOns={addOns}
-                      />}
+      &lt;h2>{translationText || 'Employees'}&lt;/h2>
+      &lt;EmployeesTable doTL={doTL} />
     &lt;/div>
   );
 };
 
-export default Menu;
-</code></pre>
+export default Employees;</code></pre>
         </article>
     </section>
 

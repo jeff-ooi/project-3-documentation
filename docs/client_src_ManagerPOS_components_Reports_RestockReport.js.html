@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: client/src/CustomerPOS/Menu.js</title>
+    <title>JSDoc: Source: client/src/ManagerPOS/components/Reports/RestockReport.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: client/src/CustomerPOS/Menu.js</h1>
+    <h1 class="page-title">Source: client/src/ManagerPOS/components/Reports/RestockReport.js</h1>
 
     
 
@@ -27,240 +27,174 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
-import './Menu.css'; // Make sure to create a CSS file with this name
-import defaultDrinkImage from './assets/boba.svg';
-import { TranslateBulk, LanguageDialog } from '../Translate';
-import { AddOnDialog } from './AddOns';
-import MenuItemCard from './components/MenuItemCard';
-import { CheckoutDialog } from './components/Checkout';
-import { AppBar, Toolbar, IconButton, Typography, Button, Box, ThemeProvider, Badge} from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import alleyLogo from './assets/the_alley_logo.png';
-import theme from '../theme';
-import { Weather } from '../Weather';
-import AccountButton from '../AccountButton';
+import { Box, Button, Dialog, Typography, CircularProgress} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { DataGrid } from '@mui/x-data-grid';
+import { TranslateBulk } from '../../../Translate';
+// import './Reports.css';
 
-// const serverURL = 'http://localhost:9000';
-// const serverURL = 'https://project-3-server-ljp9.onrender.com';
 const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
 
 /**
- * The Menu for the Customer GUI.
- * @returns html for the Menu and associated dialogs
+ * RestockReport is a React component that provides a user interface for generating a restock report.
+ * The component fetches data related to items that may need restocking, handles loading and error states,
+ * and displays this data in a table format. It also incorporates translation features for internationalization.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.isOpen - A boolean to determine if the dialog should be open or closed.
+ * @param {function} props.onClose - A function to be called when the dialog needs to be closed.
+ *
+ * @returns {ReactElement|null} A Dialog element containing the RestockReport table or null if the dialog is not open.
+ *
+ * @example
+ * &lt;RestockReport isOpen={true} onClose={() => {}} />
  */
-const Menu = () => {
-  const [menuItems, setMenuItems] = useState([]);
-  const [ isOpen, setIsOpen ] = useState({});
-  const [ orderMenuItems, setOrderMenuItems ] = useState([]);
-  const [ orderMenuItemAddOns, setOrderMenuItemAddOns ] = useState([]);
-  const [ price, setPrice ] = useState(0);
-  const [ openCheckout, setOpenCheckout ] = useState(false);
-  const [ notes, setNotes ] = useState([]);
-  const [ doTL, setDoTL ] = useState(false);
-  const [ translationMenu, setTranslationMenu ] = useState([]);
-  const [ translationAddOns, setTranslationAddOns ] = useState([]);
-  const [ addOns, setAddOns ] = useState([]);
+
+const RestockReport = ({isOpen, onClose }) => {
+  const [restockReportData, setRestockReport] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [ translationHeaders, setTranslationHeaders ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
 
   useEffect(() => {
-    var abortController = new AbortController();
-    // gets the meu and add ons
-    const getMenu = async () => {
+    const fetchData = async () => {
+      if (!isOpen) return; // Exit if the component is not open
+      setLoading(true);    // Set loading state
+  
       try {
-        var response = await fetch(serverURL+'/menu', {signal: abortController.signal});
-        var data = await response.json();
-        for (let i = 0; i &lt; data.menu.length; i++) {
-          data.menu[i].enName = data.menu[i].name;
+        // Fetch data from server
+        const response = await fetch(serverURL + "/report", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+          body: JSON.stringify({'restock' : {}})
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-        setMenuItems(data.menu);
+  
+        let data = await response.json();
+        data = data.report;
+        console.log(data);
 
-        response = await fetch(serverURL+'/addOns', {signal: abortController.signal});
-        data = await response.json();
-        for (let i = 0; i &lt; data.addOns.length; ++i) {
-          data.addOns[i].enName = data.addOns[i].name;
-        }
-        setAddOns(data.addOns);
-        setDoTL(true);
-      }
-      catch (error) {
-        console.error('Error fetching data: ', error);
+        const transformedData = data.map((item, index) => ({
+          id: index,
+          ...item
+        }));
+  
+        setRestockReport(transformedData); // Update state with transformed data
+      } catch (error) {
+        console.error(error);
+        setError(true); // Set error state
+      } finally {
+        setLoading(false); // Reset loading state
       }
     };
-    getMenu();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
-  // console.log(menuItems);
-  // console.log(addOns);
+  
+    fetchData();
+  }, [isOpen]);
 
-  // translates the menu and add ons
   useEffect(() => {
-    if (doTL) {
-      var temp = [];
-      for (const menuItem of menuItems) {
-        temp.push(menuItem.enName);
-      }
-      // setTranslation(TranslateBulk(temp));
-      TranslateBulk(temp, setTranslationMenu);
-      temp = [];
-      for (const addOn of addOns) {
-        temp.push(addOn.enName);
-      }
-      TranslateBulk(temp, setTranslationAddOns)
-      setDoTL(false);
-    }
-  }, [doTL])
+    var headers = ['Name', 'Amount Remaining', 'Minimum Amount'];
+    TranslateBulk(headers, setTranslationHeaders);
+    var text = ['Restock Report', 'Error: No data found, enter a different time stamp.', 'No items need restocking.'];
+    TranslateBulk(text, setTranslationText);
+  }, [])
+  
 
-  // sets open boolean for each menu item dialog to false.
-  useEffect(() => {
-    var open = {};
-    for (const item of menuItems) {
-      open[item.id] = false;
-    }
-    setIsOpen(open);
-  }, [menuItems]);
-
-  // sets the name of each menu item to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationMenu.length; ++i) {
-      menuItems[i].name = translationMenu[i];
-    }
-    setMenuItems([...menuItems]);
-  }, [translationMenu])
-
-  // sets the name of each add on to its translation.
-  useEffect(() => {
-    for (let i = 0; i &lt; translationAddOns.length; ++i) {
-      addOns[i].name = translationAddOns[i];
-    }
-    setAddOns([...addOns]);
-  }, [translationAddOns])
-
-  /**
-   * Imports all images in a directory
-   * @param {require.context} r - the context of the directory to import from
-   * @returns a dictionary mapping the name of the image file to the image.
-   */
-  const importAll = (r) => {
-    let images = {};
-    r.keys().map((item, index) => { images[item.replace('./','')] = r(item); });
-    return images;
+  const handleOnClose = () => {
+    setLoading(true);
+    setRestockReport([]);
+    onClose();
   }
 
-  // let menuPicture = enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-
-  const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
-
-  // if (!(menuPicture in images)) {
-  //   menuPicture = 'boba.svg';
-  // }
-
-  // if (Object.entries(isOpen).length === 0) {
-  //   return &lt;div>&lt;/div>
-  // }
-
-  /**
-   * Sets the isOpen state to true for a menu item
-   * @param {String} id - the id of the menu item that was clicked
-   * @returns void
-   */
-  const openDialog = (id) => () => {
-    setIsOpen({...isOpen, [id]: true});
-  }
-
-  // console.log(menuItems);
-  // console.log(isOpen);
-
-  // loading
-  for (const item of menuItems) {
-    if (isOpen[item.id] === undefined) {
-      return &lt;div>&lt;/div>
+  const columns = [
+    {
+      field: 'name',
+      headerName: translationHeaders[0] || 'Name',
+      flex: 3,
+      minWidth: 200,
+      editable: false
+    },
+    {
+      field: 'amount_remaining',
+      headerName: translationHeaders[1] || 'Amount Remaining',
+      flex: 2,
+      minWidth: 150,
+      editable: false
+    },
+    {
+      field: 'min_amount',
+      headerName: translationHeaders[2] || 'Minimum Amount',
+      flex: 2,
+      minWidth: 150,
+      editable: false
     }
-  }
+  ];
+
+  if (!isOpen) return null;
 
   return (
-    &lt;div>
-      &lt;ThemeProvider theme={theme}>
-      &lt;AppBar position="static">
-      &lt;Toolbar>
-      {/* Left Side: Image and Weather Component */}
-      &lt;Box sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-        &lt;Box sx={{ mb: 1, mt: 1 }}>
-          &lt;img src={alleyLogo} alt="The Alley Logo" style={{ maxHeight: 70, maxWidth: '100%' }} />
-        &lt;/Box>
-        &lt;Box sx={{ ml:2 }}>&lt;Weather doTL={doTL} />&lt;/Box>
         
-      &lt;/Box>
-
-      {/* Right Side: Icon Buttons */}
-      &lt;Box sx={{ display: 'flex', alignItems: 'center' }}>
-        &lt;LanguageDialog setDoTL={setDoTL} />
-        &lt;IconButton 
-          onClick={() => setOpenCheckout(true)} 
-          aria-label="View Order and Checkout" 
-          sx={{ color: 'white' }} // Apply white color to the icon
-        >
-          &lt;Badge badgeContent={orderMenuItems.length} color='secondary'>
-            &lt;ShoppingCartIcon />
-          &lt;/Badge>
-        &lt;/IconButton>
-        &lt;AccountButton />
-      &lt;/Box>
-    &lt;/Toolbar>
-    &lt;/AppBar>
-    &lt;/ThemeProvider>
-    &lt;Box sx={{ m:3}}>&lt;/Box>
-      {/* &lt;LanguageDialog />
-      &lt;Button onClick={() => setOpenCheckout(true)}>View Order and Checkout&lt;/Button> */}
-      &lt;div className="menu">
-        {/* &lt;button> */}
-        {menuItems.map((item, i) => {
-          let menuPicture = item.enName.toLowerCase().replaceAll(" ", "_").replaceAll('.','')+".jpeg";
-          // if no image set to default
-          if (!(menuPicture in images)) {
-            menuPicture = 'boba.png';
-          }
-          return (
-            &lt;div>
-            &lt;button onClick={openDialog(item.id)} className='item-card-btn'>
-              &lt;MenuItemCard key={item.id} title={item.name} price={`$${Number(item.price).toFixed(2)}`} imageUrl={images[menuPicture]} />
-            &lt;/button> 
-            &lt;Box sx={{ m:3}}>&lt;/Box>
-            &lt;/div>
-          )})}
-        {/* &lt;/button> */}
-      &lt;/div>
-      {/* &lt;LanguageDialog /> */}
-      {menuItems.map(item => {
-        return (
-          &lt;>
-          {isOpen[item.id] &amp;&amp; &lt;AddOnDialog 
-                                key={item.id}
-                                menuItem={item}
-                                open={isOpen} setOpen={setIsOpen}
-                                orderMenuItems={orderMenuItems}
-                                orderMenuItemAddOns={orderMenuItemAddOns}
-                                totalPrice={price} setTotalPrice={setPrice} 
-                                notes={notes}
-                                addOns={addOns}
-                              />}
-          &lt;/>
-        )
-      })}
-      {openCheckout &amp;&amp; &lt;CheckoutDialog 
-                          orderMenuItems={orderMenuItems} setOrderMenuItems={setOrderMenuItems}
-                          orderMenuItemsAddOns={orderMenuItemAddOns} setOrderMenuItemAddOns={setOrderMenuItemAddOns}
-                          price={price} setPrice={setPrice}
-                          notes={notes} setNotes={setNotes}
-                          isOpen={openCheckout} setIsOpen={setOpenCheckout}
-                          addOns={addOns}
-                      />}
-    &lt;/div>
+    &lt;Dialog open={isOpen} onClose={handleOnClose} maxWidth="md">
+    &lt;Box sx={{ width: 800, m:2}}>
+    &lt;Box sx={{ 
+      display: 'flex', // Enable flexbox
+      justifyContent: 'space-between', // Place items at the start and end of the container
+      alignItems: 'center', // Align items vertically at the center
+    }}>
+      &lt;h3>{translationText[0] || 'Restock Report'}&lt;/h3> {/* Text aligned to left */}
+      &lt;Button
+      variant="contained"
+      onClick={handleOnClose}
+      sx={{
+        backgroundColor: 'red',
+        width: '30px',  // Set the width
+        height: '30px', // Set the height to make it square
+        minWidth: '30px', // Override minimum width
+        padding: 0, // Optional: Adjust padding to your preference
+        '&amp;:hover': {
+          backgroundColor: 'darkred', // Change for hover state
+        }
+      }}
+    >
+        &lt;CloseIcon sx={{ color: 'white' }} />
+    &lt;/Button>
+      
+    &lt;/Box>
+      &lt;Box sx={{ m: 2 }}>&lt;/Box>
+      {loading ? (
+        &lt;Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600, color: '#2E4647'}}>
+          &lt;CircularProgress />
+        &lt;/Box>
+      ) : error ? (
+        &lt;Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
+          &lt;Typography variant="subtitle1" color="error">
+            {translationText[1] || 'Error: No data found, enter a different time stamp.'}
+          &lt;/Typography>
+        &lt;/Box>
+      ) : restockReportData.length > 0 ? (
+        &lt;Box sx={{ height: 600, width: '100%' }}> 
+          &lt;DataGrid rows={restockReportData} columns={columns} pageSize={5} />
+        &lt;/Box>
+      ) : (
+        &lt;Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 600 }}>
+          &lt;Typography variant="subtitle1">
+            {translationText[2] || 'No items need restocking,'}
+          &lt;/Typography>
+        &lt;/Box>
+      )}
+    &lt;/Box>
+  &lt;/Dialog>
+  
   );
 };
 
-export default Menu;
-</code></pre>
+export default RestockReport;</code></pre>
         </article>
     </section>
 

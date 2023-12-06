@@ -284,6 +284,73 @@
 
         
             
+<h4 class="name" id="EditDialog"><span class="type-signature">(constant) </span>EditDialog<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    EditDialog is a React component that displays a dialog for editing or adding a menu item.It fetches menu item details, add-ons, and inventory from the server, and allows for editing these details.The dialog supports internationalization for labels and buttons.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTableEditDialog.js.html">client/src/ManagerPOS/components/Tables/MenuTableEditDialog.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTableEditDialog.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;EditDialog     menu={currentMenu}     setMenu={setMenuFunction}     id={currentItemId}     open={dialogOpenState}     setOpen={setDialogOpenState} /></code></pre>
+
+
+
+        
+            
 <h4 class="name" id="TranslateBulk"><span class="type-signature">(constant) </span>TranslateBulk<span class="type-signature"></span></h4>
 
 
@@ -842,6 +909,68 @@
 
         
             
+<h4 class="name" id="handleUpdate"><span class="type-signature">(constant) </span>handleUpdate<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Handles the update operation for menu items. It makes an asynchronous call to the server to update menu item details based on the specified type and update values.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTableEditDialog.js.html">client/src/ManagerPOS/components/Tables/MenuTableEditDialog.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTableEditDialog.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="updateAddons"><span class="type-signature">(constant) </span>updateAddons<span class="type-signature"></span></h4>
 
 
@@ -1343,6 +1472,968 @@
     
 
     
+    <h4 class="name" id="AddOns"><span class="type-signature"></span>AddOns<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    AddOns is a React component that renders a title and a table of add-ons.It supports internationalization for the title text and passes the translation flag to the AddOnsTable component.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the title.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_pages_AddOns.js.html">client/src/ManagerPOS/pages/AddOns.js</a>, <a href="client_src_ManagerPOS_pages_AddOns.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A component with a title and the AddOnsTable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;AddOns doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="AddOnsCheckbox"><span class="type-signature"></span>AddOnsCheckbox<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    AddOnsCheckbox is a React component that displays a list of add-ons with checkboxes.It fetches add-on data from a server and allows the user to select add-ons through checkboxes.The component manages the checked state of each add-on and supports internationalization for the display text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isChecked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object representing the checked state of each add-on.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsChecked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to update the checked state of the add-ons.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTableAddOnCheckbox.js.html">client/src/ManagerPOS/components/Tables/MenuTableAddOnCheckbox.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTableAddOnCheckbox.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A list of checkboxes, each representing an add-on.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;AddOnsCheckbox isChecked={checkedState} setIsChecked={setCheckedStateFunction} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="AddOnsTable"><span class="type-signature"></span>AddOnsTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    AddOnsTable is a React component that displays a table of add-ons.It fetches add-on data from a server, handles loading and error states, and allows for add-on CRUD operations.This component supports internationalization for headers and text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean that determines if translation should be performed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_AddOnsTable.js.html">client/src/ManagerPOS/components/Tables/AddOnsTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_AddOnsTable.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A DataGrid element containing the add-ons data.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;AddOnsTable doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="AddToolbar"><span class="type-signature"></span>AddToolbar<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    AddToolbar is a functional component that provides a toolbar with an add button for the MenuTable.It triggers a dialog for adding a new menu item when the add button is clicked.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>menuItems</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current list of menu items.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setMenuItems</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to update the list of menu items.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object containing the open state for each menu item's edit dialog.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to update the open state for the edit dialogs.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>translationAdd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Translated text for the 'Create New Menu Item' button.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTable.js.html">client/src/ManagerPOS/components/Tables/MenuTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTable.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A toolbar component with an add button.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="AlleyBackgroundVideo"><span class="type-signature"></span>AlleyBackgroundVideo<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
@@ -1771,6 +2862,933 @@
     
 
     
+    <h4 class="name" id="Employees"><span class="type-signature"></span>Employees<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Employees is a React component that renders a title and a table of employees.It supports internationalization for the title text and passes the translation flag to the EmployeesTable component.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the title.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_pages_Employees.js.html">client/src/ManagerPOS/pages/Employees.js</a>, <a href="client_src_ManagerPOS_pages_Employees.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A component with a title and the EmployeesTable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Employees doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="EmployeesTable"><span class="type-signature"></span>EmployeesTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    EmployeesTable is a React component that renders a table of employees.It handles CRUD operations for employee data, including fetching from and updating data to a server.The component supports row editing, adding new employees, and deleting existing ones. It also supports internationalization for headers and button text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_EmployeesTable.js.html">client/src/ManagerPOS/components/Tables/EmployeesTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_EmployeesTable.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A DataGrid element containing the employees data.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;EmployeesTable doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ExcessReport"><span class="type-signature"></span>ExcessReport<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    ExcessReport is a React component that presents a dialog for creating an excess report.It allows users to select a start date and time, and displays a report table based on the selected date.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the dialog should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called when the dialog needs to be closed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_ExcessReport.js.html">client/src/ManagerPOS/components/Reports/ExcessReport.js</a>, <a href="client_src_ManagerPOS_components_Reports_ExcessReport.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the ExcessReport form or null if the dialog is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;ExcessReport isOpen={true} onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ExcessReportTable"><span class="type-signature"></span>ExcessReportTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    ExcessReportTable is a React component that renders a table to display excess report data.It fetches data based on the provided timestamp and displays it in a DataGrid. The component also handles loading and error states.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timeStamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The timestamp for which the report data should be fetched.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the table should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called to close the table.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_ExcessReportTable.js.html">client/src/ManagerPOS/components/Reports/ExcessReportTable.js</a>, <a href="client_src_ManagerPOS_components_Reports_ExcessReportTable.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the ExcessReportTable or null if the table is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;ExcessReportTable timeStamp={new Date()} isOpen={true} onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="GenerateMenu"><span class="type-signature"></span>GenerateMenu<span class="signature">(menuItems, addOns)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
     
 
@@ -2042,6 +4060,668 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Inventory"><span class="type-signature"></span>Inventory<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Inventory is a React component that renders an inventory management interface.It includes a title for the inventory section, buttons to open the Excess and Restock reports, and a table of inventory items. The component supports internationalization for the title and button text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the title and button text.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_pages_Inventory.js.html">client/src/ManagerPOS/pages/Inventory.js</a>, <a href="client_src_ManagerPOS_pages_Inventory.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A component with a title, buttons for opening Excess and Restock reports, and the InventoryTable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Inventory doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="InventoryCheckbox"><span class="type-signature"></span>InventoryCheckbox<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    InventoryCheckbox is a React component that displays a list of inventory items with checkboxes.It fetches inventory data from a server and allows the user to select inventory items through checkboxes.The component manages the checked state of each inventory item and supports internationalization for the display text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isChecked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object representing the checked state of each inventory item.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsChecked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to update the checked state of the inventory items.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTableInventoryCheckbox.js.html">client/src/ManagerPOS/components/Tables/MenuTableInventoryCheckbox.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTableInventoryCheckbox.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A list of checkboxes, each representing an inventory item.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;InventoryCheckbox isChecked={checkedState} setIsChecked={setCheckedStateFunction} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="InventoryTable"><span class="type-signature"></span>InventoryTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    InventoryTable is a React component that renders a table of inventory items.It supports CRUD operations, including adding new inventory items, editing existing ones, and deleting them.The component handles data fetching, loading states, and error states. It also incorporates translation features for internationalization.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_InventoryTable.js.html">client/src/ManagerPOS/components/Tables/InventoryTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_InventoryTable.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A DataGrid element containing the inventory data.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;InventoryTable doTL={true} /></code></pre>
 
 
 
@@ -2467,6 +5147,121 @@
     
 
     
+    <h4 class="name" id="ManagerPOS"><span class="type-signature"></span>ManagerPOS<span class="signature">()</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    ManagerPOS is a React component that serves as the main interface for the manager's point of sale (POS) system.It provides navigation to different sections like Employees, Orders, Inventory, Menu, and Add-Ons through a tabbed interface.The component also supports language translation and includes an account button for user management.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_ManagerPOS.js.html">client/src/ManagerPOS/ManagerPOS.js</a>, <a href="client_src_ManagerPOS_ManagerPOS.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The main POS interface with navigation and routed content for each section.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;ManagerPOS /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="Menu"><span class="type-signature"></span>Menu<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -2556,6 +5351,219 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Menu"><span class="type-signature"></span>Menu<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Menu is a React component that renders a menu management interface.It includes a title for the menu, a button to open a popularity report, and a table of menu items.The component supports internationalization for the title and button text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the title and button text.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_pages_Menu.js.html">client/src/ManagerPOS/pages/Menu.js</a>, <a href="client_src_ManagerPOS_pages_Menu.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A component with a title, a button for opening a popularity report, and the MenuTable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Menu doTL={true} /></code></pre>
 
 
 
@@ -2703,6 +5711,219 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="MenuTable"><span class="type-signature"></span>MenuTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    MenuTable is a React component that displays a table of menu items.It handles CRUD operations for menu items, including adding new items, editing existing items, and deleting items.The component fetches menu items from a server and handles loading and error states.It also incorporates translation features for internationalization.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_MenuTable.js.html">client/src/ManagerPOS/components/Tables/MenuTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_MenuTable.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A DataGrid element containing the menu items.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;MenuTable doTL={true} /></code></pre>
 
 
 
@@ -2908,6 +6129,1742 @@
     
 
 
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Orders"><span class="type-signature"></span>Orders<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Orders is a React component that renders an orders management interface.It includes a title for the orders section, a button to open a sales report, and a table of orders.The component supports internationalization for the title and button text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the title and button text.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_pages_Orders.js.html">client/src/ManagerPOS/pages/Orders.js</a>, <a href="client_src_ManagerPOS_pages_Orders.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A component with a title, a button for opening a sales report, and the OrdersTable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Orders doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="OrdersTable"><span class="type-signature"></span>OrdersTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    OrdersTable is a React component that displays a table of orders.It fetches order data from a server and renders it in a table format.The component handles loading and error states and supports internationalization for column headers.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>doTL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean indicating whether translations should be performed for the table headers.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_OrdersTable.js.html">client/src/ManagerPOS/components/Tables/OrdersTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_OrdersTable.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A DataGrid element containing the orders data.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;OrdersTable doTL={true} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="PopularityReport"><span class="type-signature"></span>PopularityReport<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    PopularityReport is a React component that provides a user interface for generating a popularity report.The report is based on the start and end times, and the number of items specified by the user.It displays a dialog for the user to enter these parameters and shows the report table upon submission.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the dialog should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called when the dialog needs to be closed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_PopularityReport.js.html">client/src/ManagerPOS/components/Reports/PopularityReport.js</a>, <a href="client_src_ManagerPOS_components_Reports_PopularityReport.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the form for generating a popularity report or null if the dialog is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;PopularityReport isOpen={true} onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="PopularityReportTable"><span class="type-signature"></span>PopularityReportTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    PopularityReportTable is a React component that renders a data table for displaying popularity report data.The report data is fetched based on the start and end times, and the number of items specified.This component handles the fetching of data, loading states, and error states.Additionally, it utilizes translation features for internationalization.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>startTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The start time for the popularity report.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>endTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The end time for the popularity report.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>numItems</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The number of items to display in the report.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the table should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called to close the table.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_PopularityReportTable.js.html">client/src/ManagerPOS/components/Reports/PopularityReportTable.js</a>, <a href="client_src_ManagerPOS_components_Reports_PopularityReportTable.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the PopularityReportTable or null if the table is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;PopularityReportTable    startTime={new Date()}   endTime={new Date()}   numItems={5}   isOpen={true}    onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="RestockReport"><span class="type-signature"></span>RestockReport<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    RestockReport is a React component that provides a user interface for generating a restock report.The component fetches data related to items that may need restocking, handles loading and error states,and displays this data in a table format. It also incorporates translation features for internationalization.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the dialog should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called when the dialog needs to be closed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_RestockReport.js.html">client/src/ManagerPOS/components/Reports/RestockReport.js</a>, <a href="client_src_ManagerPOS_components_Reports_RestockReport.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the RestockReport table or null if the dialog is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;RestockReport isOpen={true} onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SalesReport"><span class="type-signature"></span>SalesReport<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    SalesReport is a React component that renders a user interface for generating a sales report.It allows users to select start and end dates and, upon submission, displays a table with the sales report.The component handles state for date selection, loading the report table, and includes internationalization support with translation features.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the dialog should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called when the dialog needs to be closed.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_SalesReport.js.html">client/src/ManagerPOS/components/Reports/SalesReport.js</a>, <a href="client_src_ManagerPOS_components_Reports_SalesReport.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the form for generating a sales report or null if the dialog is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;SalesReport isOpen={true} onClose={() => {}} /></code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SalesReportTable"><span class="type-signature"></span>SalesReportTable<span class="signature">(props)</span><span class="type-signature"> &rarr; {ReactElement|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    SalesReportTable is a React component that displays a sales report table. It fetches and shows data based on the given start and end times. The component handles the loading and error states and supports internationalization for headers and text.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The properties passed to the component.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>startTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The start time for generating the sales report.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>endTime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The end time for generating the sales report.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isOpen</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A boolean to determine if the table should be open or closed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onClose</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to be called to close the table.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Reports_SalesReportTable.js.html">client/src/ManagerPOS/components/Reports/SalesReportTable.js</a>, <a href="client_src_ManagerPOS_components_Reports_SalesReportTable.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Dialog element containing the SalesReportTable or null if the table is not open.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ReactElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;SalesReportTable    startTime={new Date('2023-01-01')}    endTime={new Date('2023-01-31')}    isOpen={true}    onClose={() => {}} /></code></pre>
 
 
 
@@ -8190,6 +13147,486 @@
 
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleUpdate"><span class="type-signature"></span>handleUpdate<span class="signature">(type, updateVals)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Handles updating various types of add-on data in the database.Based on the provided type, it formats the data accordingly and sends a request to the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type of update operation (e.g., 'last_restock_date').</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateVals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The values to be updated, structured as an object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_AddOnsTable.js.html">client/src/ManagerPOS/components/Tables/AddOnsTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_AddOnsTable.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleUpdate"><span class="type-signature"></span>handleUpdate<span class="signature">(type, updateVals)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Handles the updating of employee information based on a specified type.This function primarily deals with updating employee data such as start dates, and communicates with the server for database updates.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type of update operation (e.g., 'start_date', 'delete').</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateVals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The values to be updated, structured as an object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_EmployeesTable.js.html">client/src/ManagerPOS/components/Tables/EmployeesTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_EmployeesTable.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleUpdate"><span class="type-signature"></span>handleUpdate<span class="signature">(type, updateVals)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Handles updating various inventory item details in the database.This function manages formatting the update values and making an asynchronous request to the server for updating the inventory.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The type of update operation (e.g., 'last_restock_date').</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateVals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The values to be updated, structured as an object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client_src_ManagerPOS_components_Tables_InventoryTable.js.html">client/src/ManagerPOS/components/Tables/InventoryTable.js</a>, <a href="client_src_ManagerPOS_components_Tables_InventoryTable.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -13607,13 +19044,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountButton">AccountButton</a></li><li><a href="global.html#AddAddOns">AddAddOns</a></li><li><a href="global.html#AddOnDialog">AddOnDialog</a></li><li><a href="global.html#AddOnsCheckbox">AddOnsCheckbox</a></li><li><a href="global.html#AlleyBackgroundVideo">AlleyBackgroundVideo</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CashierPOS">CashierPOS</a></li><li><a href="global.html#CheckoutDialog">CheckoutDialog</a></li><li><a href="global.html#CustomerPOS">CustomerPOS</a></li><li><a href="global.html#EditDialog">EditDialog</a></li><li><a href="global.html#GenerateMenu">GenerateMenu</a></li><li><a href="global.html#GetTranslateLanguage">GetTranslateLanguage</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#LanguageDialog">LanguageDialog</a></li><li><a href="global.html#LinkTab">LinkTab</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItemCard">MenuItemCard</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#TranslateBulk">TranslateBulk</a></li><li><a href="global.html#TranslateText">TranslateText</a></li><li><a href="global.html#Weather">Weather</a></li><li><a href="global.html#addAddOn">addAddOn</a></li><li><a href="global.html#addEmployee">addEmployee</a></li><li><a href="global.html#addEmployeeShift">addEmployeeShift</a></li><li><a href="global.html#addInventoryItem">addInventoryItem</a></li><li><a href="global.html#addItemToOrder">addItemToOrder</a></li><li><a href="global.html#addMenuItem">addMenuItem</a></li><li><a href="global.html#addOrder">addOrder</a></li><li><a href="global.html#addShift">addShift</a></li><li><a href="global.html#addonsReducer">addonsReducer</a></li><li><a href="global.html#clearAddons">clearAddons</a></li><li><a href="global.html#clearMenuItems">clearMenuItems</a></li><li><a href="global.html#clearOrder">clearOrder</a></li><li><a href="global.html#deleteAddOn">deleteAddOn</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#deleteEmployeeShift">deleteEmployeeShift</a></li><li><a href="global.html#deleteInventoryItem">deleteInventoryItem</a></li><li><a href="global.html#deleteMenuItem">deleteMenuItem</a></li><li><a href="global.html#deleteOrder">deleteOrder</a></li><li><a href="global.html#deleteShift">deleteShift</a></li><li><a href="global.html#excessReport">excessReport</a></li><li><a href="global.html#fetchAddOns">fetchAddOns</a></li><li><a href="global.html#fetchMenuItems">fetchMenuItems</a></li><li><a href="global.html#getAddOns">getAddOns</a></li><li><a href="global.html#getAllEmployeeShifts">getAllEmployeeShifts</a></li><li><a href="global.html#getAllShifts">getAllShifts</a></li><li><a href="global.html#getEmployees">getEmployees</a></li><li><a href="global.html#getInventory">getInventory</a></li><li><a href="global.html#getMenu">getMenu</a></li><li><a href="global.html#getMenuItemAddOns">getMenuItemAddOns</a></li><li><a href="global.html#getMenuItemAddOnsNames">getMenuItemAddOnsNames</a></li><li><a href="global.html#getMenuItemInventoryItems">getMenuItemInventoryItems</a></li><li><a href="global.html#getMenuItemInventoryItemsNames">getMenuItemInventoryItemsNames</a></li><li><a href="global.html#getOrders">getOrders</a></li><li><a href="global.html#getSingleAddOn">getSingleAddOn</a></li><li><a href="global.html#getSingleEmployee">getSingleEmployee</a></li><li><a href="global.html#getSingleEmployeeShifts">getSingleEmployeeShifts</a></li><li><a href="global.html#getSingleInventoryItem">getSingleInventoryItem</a></li><li><a href="global.html#getSingleMenuItem">getSingleMenuItem</a></li><li><a href="global.html#getSingleOrder">getSingleOrder</a></li><li><a href="global.html#getSingleShift">getSingleShift</a></li><li><a href="global.html#menuItemsPopularity">menuItemsPopularity</a></li><li><a href="global.html#menuItemsReducer">menuItemsReducer</a></li><li><a href="global.html#orderReducer">orderReducer</a></li><li><a href="global.html#processWeatherData">processWeatherData</a></li><li><a href="global.html#restockInventoryItem">restockInventoryItem</a></li><li><a href="global.html#restockReport">restockReport</a></li><li><a href="global.html#salesReport">salesReport</a></li><li><a href="global.html#setAddOnInventoryItem">setAddOnInventoryItem</a></li><li><a href="global.html#setAddOnName">setAddOnName</a></li><li><a href="global.html#setAddOnPrice">setAddOnPrice</a></li><li><a href="global.html#updateAddons">updateAddons</a></li><li><a href="global.html#updateDayOfWeek">updateDayOfWeek</a></li><li><a href="global.html#updateEmployeeId">updateEmployeeId</a></li><li><a href="global.html#updateEmployeeName">updateEmployeeName</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updateEmployeePosition">updateEmployeePosition</a></li><li><a href="global.html#updateEmployeeSalary">updateEmployeeSalary</a></li><li><a href="global.html#updateEmployeeStartDate">updateEmployeeStartDate</a></li><li><a href="global.html#updateEmployeeUsername">updateEmployeeUsername</a></li><li><a href="global.html#updateInventoryItemAmountRemaining">updateInventoryItemAmountRemaining</a></li><li><a href="global.html#updateInventoryItemAmountUsed">updateInventoryItemAmountUsed</a></li><li><a href="global.html#updateInventoryItemLastRestockDate">updateInventoryItemLastRestockDate</a></li><li><a href="global.html#updateInventoryItemMinimumAmount">updateInventoryItemMinimumAmount</a></li><li><a href="global.html#updateInventoryItemName">updateInventoryItemName</a></li><li><a href="global.html#updateMenuItemAddOns">updateMenuItemAddOns</a></li><li><a href="global.html#updateMenuItemInventoryItems">updateMenuItemInventoryItems</a></li><li><a href="global.html#updateMenuItemName">updateMenuItemName</a></li><li><a href="global.html#updateMenuItemPrice">updateMenuItemPrice</a></li><li><a href="global.html#updateMenuItems">updateMenuItems</a></li><li><a href="global.html#updateMonth">updateMonth</a></li><li><a href="global.html#updateShiftEndTime">updateShiftEndTime</a></li><li><a href="global.html#updateShiftId">updateShiftId</a></li><li><a href="global.html#updateShiftStartTime">updateShiftStartTime</a></li><li><a href="global.html#useInventoryItem">useInventoryItem</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountButton">AccountButton</a></li><li><a href="global.html#AddAddOns">AddAddOns</a></li><li><a href="global.html#AddOnDialog">AddOnDialog</a></li><li><a href="global.html#AddOns">AddOns</a></li><li><a href="global.html#AddOnsCheckbox">AddOnsCheckbox</a></li><li><a href="global.html#AddOnsTable">AddOnsTable</a></li><li><a href="global.html#AddToolbar">AddToolbar</a></li><li><a href="global.html#AlleyBackgroundVideo">AlleyBackgroundVideo</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CashierPOS">CashierPOS</a></li><li><a href="global.html#CheckoutDialog">CheckoutDialog</a></li><li><a href="global.html#CustomerPOS">CustomerPOS</a></li><li><a href="global.html#EditDialog">EditDialog</a></li><li><a href="global.html#Employees">Employees</a></li><li><a href="global.html#EmployeesTable">EmployeesTable</a></li><li><a href="global.html#ExcessReport">ExcessReport</a></li><li><a href="global.html#ExcessReportTable">ExcessReportTable</a></li><li><a href="global.html#GenerateMenu">GenerateMenu</a></li><li><a href="global.html#GetTranslateLanguage">GetTranslateLanguage</a></li><li><a href="global.html#Inventory">Inventory</a></li><li><a href="global.html#InventoryCheckbox">InventoryCheckbox</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#LanguageDialog">LanguageDialog</a></li><li><a href="global.html#LinkTab">LinkTab</a></li><li><a href="global.html#ManagerPOS">ManagerPOS</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItemCard">MenuItemCard</a></li><li><a href="global.html#MenuTable">MenuTable</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#Orders">Orders</a></li><li><a href="global.html#OrdersTable">OrdersTable</a></li><li><a href="global.html#PopularityReport">PopularityReport</a></li><li><a href="global.html#PopularityReportTable">PopularityReportTable</a></li><li><a href="global.html#RestockReport">RestockReport</a></li><li><a href="global.html#SalesReport">SalesReport</a></li><li><a href="global.html#SalesReportTable">SalesReportTable</a></li><li><a href="global.html#TranslateBulk">TranslateBulk</a></li><li><a href="global.html#TranslateText">TranslateText</a></li><li><a href="global.html#Weather">Weather</a></li><li><a href="global.html#addAddOn">addAddOn</a></li><li><a href="global.html#addEmployee">addEmployee</a></li><li><a href="global.html#addEmployeeShift">addEmployeeShift</a></li><li><a href="global.html#addInventoryItem">addInventoryItem</a></li><li><a href="global.html#addItemToOrder">addItemToOrder</a></li><li><a href="global.html#addMenuItem">addMenuItem</a></li><li><a href="global.html#addOrder">addOrder</a></li><li><a href="global.html#addShift">addShift</a></li><li><a href="global.html#addonsReducer">addonsReducer</a></li><li><a href="global.html#clearAddons">clearAddons</a></li><li><a href="global.html#clearMenuItems">clearMenuItems</a></li><li><a href="global.html#clearOrder">clearOrder</a></li><li><a href="global.html#deleteAddOn">deleteAddOn</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#deleteEmployeeShift">deleteEmployeeShift</a></li><li><a href="global.html#deleteInventoryItem">deleteInventoryItem</a></li><li><a href="global.html#deleteMenuItem">deleteMenuItem</a></li><li><a href="global.html#deleteOrder">deleteOrder</a></li><li><a href="global.html#deleteShift">deleteShift</a></li><li><a href="global.html#excessReport">excessReport</a></li><li><a href="global.html#fetchAddOns">fetchAddOns</a></li><li><a href="global.html#fetchMenuItems">fetchMenuItems</a></li><li><a href="global.html#getAddOns">getAddOns</a></li><li><a href="global.html#getAllEmployeeShifts">getAllEmployeeShifts</a></li><li><a href="global.html#getAllShifts">getAllShifts</a></li><li><a href="global.html#getEmployees">getEmployees</a></li><li><a href="global.html#getInventory">getInventory</a></li><li><a href="global.html#getMenu">getMenu</a></li><li><a href="global.html#getMenuItemAddOns">getMenuItemAddOns</a></li><li><a href="global.html#getMenuItemAddOnsNames">getMenuItemAddOnsNames</a></li><li><a href="global.html#getMenuItemInventoryItems">getMenuItemInventoryItems</a></li><li><a href="global.html#getMenuItemInventoryItemsNames">getMenuItemInventoryItemsNames</a></li><li><a href="global.html#getOrders">getOrders</a></li><li><a href="global.html#getSingleAddOn">getSingleAddOn</a></li><li><a href="global.html#getSingleEmployee">getSingleEmployee</a></li><li><a href="global.html#getSingleEmployeeShifts">getSingleEmployeeShifts</a></li><li><a href="global.html#getSingleInventoryItem">getSingleInventoryItem</a></li><li><a href="global.html#getSingleMenuItem">getSingleMenuItem</a></li><li><a href="global.html#getSingleOrder">getSingleOrder</a></li><li><a href="global.html#getSingleShift">getSingleShift</a></li><li><a href="global.html#handleUpdate">handleUpdate</a></li><li><a href="global.html#menuItemsPopularity">menuItemsPopularity</a></li><li><a href="global.html#menuItemsReducer">menuItemsReducer</a></li><li><a href="global.html#orderReducer">orderReducer</a></li><li><a href="global.html#processWeatherData">processWeatherData</a></li><li><a href="global.html#restockInventoryItem">restockInventoryItem</a></li><li><a href="global.html#restockReport">restockReport</a></li><li><a href="global.html#salesReport">salesReport</a></li><li><a href="global.html#setAddOnInventoryItem">setAddOnInventoryItem</a></li><li><a href="global.html#setAddOnName">setAddOnName</a></li><li><a href="global.html#setAddOnPrice">setAddOnPrice</a></li><li><a href="global.html#updateAddons">updateAddons</a></li><li><a href="global.html#updateDayOfWeek">updateDayOfWeek</a></li><li><a href="global.html#updateEmployeeId">updateEmployeeId</a></li><li><a href="global.html#updateEmployeeName">updateEmployeeName</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updateEmployeePosition">updateEmployeePosition</a></li><li><a href="global.html#updateEmployeeSalary">updateEmployeeSalary</a></li><li><a href="global.html#updateEmployeeStartDate">updateEmployeeStartDate</a></li><li><a href="global.html#updateEmployeeUsername">updateEmployeeUsername</a></li><li><a href="global.html#updateInventoryItemAmountRemaining">updateInventoryItemAmountRemaining</a></li><li><a href="global.html#updateInventoryItemAmountUsed">updateInventoryItemAmountUsed</a></li><li><a href="global.html#updateInventoryItemLastRestockDate">updateInventoryItemLastRestockDate</a></li><li><a href="global.html#updateInventoryItemMinimumAmount">updateInventoryItemMinimumAmount</a></li><li><a href="global.html#updateInventoryItemName">updateInventoryItemName</a></li><li><a href="global.html#updateMenuItemAddOns">updateMenuItemAddOns</a></li><li><a href="global.html#updateMenuItemInventoryItems">updateMenuItemInventoryItems</a></li><li><a href="global.html#updateMenuItemName">updateMenuItemName</a></li><li><a href="global.html#updateMenuItemPrice">updateMenuItemPrice</a></li><li><a href="global.html#updateMenuItems">updateMenuItems</a></li><li><a href="global.html#updateMonth">updateMonth</a></li><li><a href="global.html#updateShiftEndTime">updateShiftEndTime</a></li><li><a href="global.html#updateShiftId">updateShiftId</a></li><li><a href="global.html#updateShiftStartTime">updateShiftStartTime</a></li><li><a href="global.html#useInventoryItem">useInventoryItem</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 20:02:15 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:39:25 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
