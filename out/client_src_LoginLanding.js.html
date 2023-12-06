@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/LoginLanding.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/LoginLanding.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
+import LoginPage from './LoginPage';
+import { useNavigate } from 'react-router-dom';
+import AlleyBackgroundVideo from './AlleyBackgroundVideo';
+import { Height } from '@mui/icons-material';
+
+/**
+ * Generates the landing page for the login screen
+ * @param {*} onLogin 
+ * @returns {JSX.Element}
+ */
+export default function LoginLanding({onLogin}) {
+    const navigate = useNavigate();
+
+    const profiles = {
+        cashier: { email: 'cashier@example.com', password: 'cashier123' },
+        manager: { email: 'manager@example.com', password: 'manager123' },
+        customer: { email: 'customer@example.com', password: 'customer123' },
+      };
+    
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const email = data.get('email');
+      const password = data.get('password');
+  
+      // Check credentials and route accordingly
+      if (email === profiles.cashier.email &amp;&amp; password === profiles.cashier.password) {
+        navigate('/cashier/*');
+      } else if (email === profiles.manager.email &amp;&amp; password === profiles.manager.password) {
+        navigate('/manager');
+      } else if (email === profiles.customer.email &amp;&amp; password === profiles.customer.password) {
+        navigate('/customer');
+      } else {
+        // Handle invalid credentials
+        console.log('Invalid credentials');
+      }
+    };
+
+  return (
+    &lt;ThemeProvider theme={theme}>
+
+      {/* &lt;Grid container component="main" sx={{ height: '100vh' }}>
+        &lt;CssBaseline />
+        {/* ... (Rest of the Grid layout) */}
+        {/* &lt;Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }} */}
+        {/* /> */}
+          &lt;AlleyBackgroundVideo/>
+          {/* &lt;Box sx={{m:10}}>&lt;/Box> */}
+    &lt;Box sx={{ flexGrow: 1, bgcolor: 'background.paper' }}>
+        &lt;Grid item xs={12} sm={8} md={5} elevation={6} square>
+        
+          &lt;Box
+            sx={{
+                flexGrow: 1,
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            {/* &lt;Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square> */}
+            &lt;Box sx={{m:1}}>&lt;/Box>
+            &lt;Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              &lt;LockOutlinedIcon />
+            &lt;/Avatar>
+            &lt;Typography component="h1" variant="h5">
+              Sign in
+            &lt;/Typography>
+            &lt;Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              &lt;TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              &lt;TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              &lt;Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, }}
+              >
+                Sign In
+              &lt;/Button>
+              &lt;LoginPage />
+              &lt;Button
+                onClick={() => navigate('/customer')}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 2, }}
+              >
+                Continue as Guest
+              &lt;/Button>
+              {/* &lt;Box sx={{m:1}}>&lt;/Box> */}
+              {/* ... (Rest of the UI components) */}
+            &lt;/Box>
+          &lt;/Box>
+        &lt;/Grid>
+        &lt;/Box>
+       
+      {/* &lt;/Grid> */}
+    &lt;/ThemeProvider>
+    
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountButton">AccountButton</a></li><li><a href="global.html#AddAddOns">AddAddOns</a></li><li><a href="global.html#AddOnDialog">AddOnDialog</a></li><li><a href="global.html#AddOnsCheckbox">AddOnsCheckbox</a></li><li><a href="global.html#AlleyBackgroundVideo">AlleyBackgroundVideo</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CashierPOS">CashierPOS</a></li><li><a href="global.html#CheckoutDialog">CheckoutDialog</a></li><li><a href="global.html#CustomerPOS">CustomerPOS</a></li><li><a href="global.html#EditDialog">EditDialog</a></li><li><a href="global.html#GenerateMenu">GenerateMenu</a></li><li><a href="global.html#GetTranslateLanguage">GetTranslateLanguage</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#LanguageDialog">LanguageDialog</a></li><li><a href="global.html#LinkTab">LinkTab</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItemCard">MenuItemCard</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#TranslateBulk">TranslateBulk</a></li><li><a href="global.html#TranslateText">TranslateText</a></li><li><a href="global.html#Weather">Weather</a></li><li><a href="global.html#addAddOn">addAddOn</a></li><li><a href="global.html#addEmployee">addEmployee</a></li><li><a href="global.html#addEmployeeShift">addEmployeeShift</a></li><li><a href="global.html#addInventoryItem">addInventoryItem</a></li><li><a href="global.html#addItemToOrder">addItemToOrder</a></li><li><a href="global.html#addMenuItem">addMenuItem</a></li><li><a href="global.html#addOrder">addOrder</a></li><li><a href="global.html#addShift">addShift</a></li><li><a href="global.html#addonsReducer">addonsReducer</a></li><li><a href="global.html#clearAddons">clearAddons</a></li><li><a href="global.html#clearMenuItems">clearMenuItems</a></li><li><a href="global.html#clearOrder">clearOrder</a></li><li><a href="global.html#deleteAddOn">deleteAddOn</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#deleteEmployeeShift">deleteEmployeeShift</a></li><li><a href="global.html#deleteInventoryItem">deleteInventoryItem</a></li><li><a href="global.html#deleteMenuItem">deleteMenuItem</a></li><li><a href="global.html#deleteOrder">deleteOrder</a></li><li><a href="global.html#deleteShift">deleteShift</a></li><li><a href="global.html#excessReport">excessReport</a></li><li><a href="global.html#fetchAddOns">fetchAddOns</a></li><li><a href="global.html#fetchMenuItems">fetchMenuItems</a></li><li><a href="global.html#getAddOns">getAddOns</a></li><li><a href="global.html#getAllEmployeeShifts">getAllEmployeeShifts</a></li><li><a href="global.html#getAllShifts">getAllShifts</a></li><li><a href="global.html#getEmployees">getEmployees</a></li><li><a href="global.html#getInventory">getInventory</a></li><li><a href="global.html#getMenu">getMenu</a></li><li><a href="global.html#getMenuItemAddOns">getMenuItemAddOns</a></li><li><a href="global.html#getMenuItemAddOnsNames">getMenuItemAddOnsNames</a></li><li><a href="global.html#getMenuItemInventoryItems">getMenuItemInventoryItems</a></li><li><a href="global.html#getMenuItemInventoryItemsNames">getMenuItemInventoryItemsNames</a></li><li><a href="global.html#getOrders">getOrders</a></li><li><a href="global.html#getSingleAddOn">getSingleAddOn</a></li><li><a href="global.html#getSingleEmployee">getSingleEmployee</a></li><li><a href="global.html#getSingleEmployeeShifts">getSingleEmployeeShifts</a></li><li><a href="global.html#getSingleInventoryItem">getSingleInventoryItem</a></li><li><a href="global.html#getSingleMenuItem">getSingleMenuItem</a></li><li><a href="global.html#getSingleOrder">getSingleOrder</a></li><li><a href="global.html#getSingleShift">getSingleShift</a></li><li><a href="global.html#menuItemsPopularity">menuItemsPopularity</a></li><li><a href="global.html#menuItemsReducer">menuItemsReducer</a></li><li><a href="global.html#orderReducer">orderReducer</a></li><li><a href="global.html#processWeatherData">processWeatherData</a></li><li><a href="global.html#restockInventoryItem">restockInventoryItem</a></li><li><a href="global.html#restockReport">restockReport</a></li><li><a href="global.html#salesReport">salesReport</a></li><li><a href="global.html#setAddOnInventoryItem">setAddOnInventoryItem</a></li><li><a href="global.html#setAddOnName">setAddOnName</a></li><li><a href="global.html#setAddOnPrice">setAddOnPrice</a></li><li><a href="global.html#updateAddons">updateAddons</a></li><li><a href="global.html#updateDayOfWeek">updateDayOfWeek</a></li><li><a href="global.html#updateEmployeeId">updateEmployeeId</a></li><li><a href="global.html#updateEmployeeName">updateEmployeeName</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updateEmployeePosition">updateEmployeePosition</a></li><li><a href="global.html#updateEmployeeSalary">updateEmployeeSalary</a></li><li><a href="global.html#updateEmployeeStartDate">updateEmployeeStartDate</a></li><li><a href="global.html#updateEmployeeUsername">updateEmployeeUsername</a></li><li><a href="global.html#updateInventoryItemAmountRemaining">updateInventoryItemAmountRemaining</a></li><li><a href="global.html#updateInventoryItemAmountUsed">updateInventoryItemAmountUsed</a></li><li><a href="global.html#updateInventoryItemLastRestockDate">updateInventoryItemLastRestockDate</a></li><li><a href="global.html#updateInventoryItemMinimumAmount">updateInventoryItemMinimumAmount</a></li><li><a href="global.html#updateInventoryItemName">updateInventoryItemName</a></li><li><a href="global.html#updateMenuItemAddOns">updateMenuItemAddOns</a></li><li><a href="global.html#updateMenuItemInventoryItems">updateMenuItemInventoryItems</a></li><li><a href="global.html#updateMenuItemName">updateMenuItemName</a></li><li><a href="global.html#updateMenuItemPrice">updateMenuItemPrice</a></li><li><a href="global.html#updateMenuItems">updateMenuItems</a></li><li><a href="global.html#updateMonth">updateMonth</a></li><li><a href="global.html#updateShiftEndTime">updateShiftEndTime</a></li><li><a href="global.html#updateShiftId">updateShiftId</a></li><li><a href="global.html#updateShiftStartTime">updateShiftStartTime</a></li><li><a href="global.html#useInventoryItem">useInventoryItem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 20:02:15 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

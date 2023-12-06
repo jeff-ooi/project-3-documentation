@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/CashierPOS/Order.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/CashierPOS/Order.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { TranslateBulk } from '../Translate';
+
+const serverURL = process.env.REACT_APP_SERVER_URL || 'http://localhost:9000';
+
+var price = 0;
+
+/**
+ * Generates the order text, totals, and checkout/clear buttons for the cashier POS
+ * @param {*} menuItems
+ * @param {*} addons
+ * @param {*} doTL 
+ * @returns {JSX.Element} for order text, totals, and checkout/clear buttons
+ */
+const Order = ({menuItems, addons, doTL}) => {
+  const dispatch = useDispatch();
+  // const menuItems = useSelector((state) => state.menuItems);
+  // const addons = useSelector((state) => state.addons);
+  const ordersEntered = useSelector((state) => state.ordersEntered);
+  const [ translationButtons, setTranslationButtons ] = useState([]);
+  const [ translationText, setTranslationText ] = useState([]);
+
+  useEffect(() => {
+    if (doTL) {
+      var buttons = ['Checkout', 'Clear Orders'];
+      TranslateBulk(buttons, setTranslationButtons);
+      var text = ['Orders', 'Subtotal', 'Tax', 'Total'];
+      TranslateBulk(text, setTranslationText);
+    }
+  }, [doTL])
+
+  price = 0;
+    ordersEntered.forEach((item) => {
+      price += item.menuItem.price;
+      item.addOnList.forEach((addon) => {
+        price += addon.price;
+      });
+  }, 0);
+
+  const checkout = () => {
+    //insert code to send order to database
+    price = 0;
+    ordersEntered.forEach((item) => {
+      price += item.menuItem.price;
+      item.addOnList.forEach((addon) => {
+        price += addon.price;
+      });
+    }, 0);
+
+    price = price * 1.0825;
+    
+    const orderIds = ordersEntered.map((item) => item.menuItem.id);
+    const addonsIds = ordersEntered.map((item) => item.addOnList.map((addon) => addon.id));
+
+    console.log("addonsIds: ", addonsIds);
+
+    var response = fetch(serverURL+"/updateOrders",{
+      // signal: abortController.signal,
+      method: "POST",
+      headers: {
+          "Content-type": "application/json; charset = UTF-8"
+      },
+      body: JSON.stringify({'add': {'price': price.toFixed(2), 'addOns': addonsIds, 'menuItems': orderIds}})
+    });
+
+    dispatch({ type: 'CLEAR_ORDER' });
+  };
+
+  const clearOrder = () => {
+    dispatch({ type: 'CLEAR_ORDER' });
+  };
+
+  // Render each order
+  const orderElements = ordersEntered.map((item) => {
+    // console.log(item);
+    // console.log(menuItems);
+    let menuItem = menuItems.filter((menu) => menu.id === item.menuItem.id)[0];
+    // console.log(menuItem);
+
+    const itemAddons = item.addOnList || [];
+    // console.log(itemAddons);
+    let addOns = addons.filter((addOn) => {
+      for (let i = 0; i &lt; itemAddons.length; ++i) {
+        if (itemAddons[i].id === addOn.id) {
+          return true;
+        }
+      }
+      return false;
+    })
+    // console.log(addOns);
+    const orderPrice = item.menuItem.price + itemAddons.reduce((acc, addon) => acc + addon.price, 0);
+    // console.log("itemAddons: ", itemAddons);
+    return (
+      &lt;div key={item.menuItem.name} className="orderItem">
+        &lt;div className="orderItemName">{menuItem.name} ${orderPrice.toFixed(2)}&lt;/div>
+        &lt;div className="orderItemAddons">
+          {addOns.map((addon) => (
+            &lt;div key={addon.id} className="orderItemAddon">
+              {addon.name}
+            &lt;/div>
+          ))}
+        &lt;/div>
+      &lt;/div>
+    );
+  });
+
+  return (
+    &lt;div className="Order">
+      &lt;h1 className='text-center'>{translationText[0] || 'Orders'}&lt;/h1>
+      {orderElements.length > 0 ? (
+        &lt;div className="orderText overflow-auto">
+          {orderElements}
+        &lt;/div>
+      ) : (
+        &lt;div>&lt;/div>
+      )}
+      &lt;div className="totals">
+        &lt;h2>{translationText[1] || 'Subtotal'}: {`$${price.toFixed(2)}`}&lt;/h2>
+        &lt;h2>{translationText[2] || 'Tax'}: {`$${(price * 0.0825).toFixed(2)}`}&lt;/h2>
+        &lt;h2>{translationText[3] || 'Total'}: {`$${(price * 1.0825).toFixed(2)}`}&lt;/h2>
+      &lt;/div>
+      &lt;div class="checkout_clear_buttons">
+        &lt;div className='position-relative'>
+          &lt;button type="button" class="checkout_button" className="btn btn-success btn-lg" onClick={checkout}>
+            {translationButtons[0] || 'Checkout'}
+          &lt;/button>
+        &lt;/div>
+        &lt;br>&lt;/br>
+        &lt;div className='position-relative'>
+          &lt;button type="button" class="clear_button" className="btn btn-danger" onClick={clearOrder}>
+            {translationButtons[1] || 'Clear Orders'}
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+export default Order;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountButton">AccountButton</a></li><li><a href="global.html#AddAddOns">AddAddOns</a></li><li><a href="global.html#AddOnDialog">AddOnDialog</a></li><li><a href="global.html#AddOnsCheckbox">AddOnsCheckbox</a></li><li><a href="global.html#AlleyBackgroundVideo">AlleyBackgroundVideo</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CashierPOS">CashierPOS</a></li><li><a href="global.html#CheckoutDialog">CheckoutDialog</a></li><li><a href="global.html#CustomerPOS">CustomerPOS</a></li><li><a href="global.html#EditDialog">EditDialog</a></li><li><a href="global.html#GenerateMenu">GenerateMenu</a></li><li><a href="global.html#GetTranslateLanguage">GetTranslateLanguage</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#LanguageDialog">LanguageDialog</a></li><li><a href="global.html#LinkTab">LinkTab</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItemCard">MenuItemCard</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#TranslateBulk">TranslateBulk</a></li><li><a href="global.html#TranslateText">TranslateText</a></li><li><a href="global.html#Weather">Weather</a></li><li><a href="global.html#addAddOn">addAddOn</a></li><li><a href="global.html#addEmployee">addEmployee</a></li><li><a href="global.html#addEmployeeShift">addEmployeeShift</a></li><li><a href="global.html#addInventoryItem">addInventoryItem</a></li><li><a href="global.html#addItemToOrder">addItemToOrder</a></li><li><a href="global.html#addMenuItem">addMenuItem</a></li><li><a href="global.html#addOrder">addOrder</a></li><li><a href="global.html#addShift">addShift</a></li><li><a href="global.html#addonsReducer">addonsReducer</a></li><li><a href="global.html#clearAddons">clearAddons</a></li><li><a href="global.html#clearMenuItems">clearMenuItems</a></li><li><a href="global.html#clearOrder">clearOrder</a></li><li><a href="global.html#deleteAddOn">deleteAddOn</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#deleteEmployeeShift">deleteEmployeeShift</a></li><li><a href="global.html#deleteInventoryItem">deleteInventoryItem</a></li><li><a href="global.html#deleteMenuItem">deleteMenuItem</a></li><li><a href="global.html#deleteOrder">deleteOrder</a></li><li><a href="global.html#deleteShift">deleteShift</a></li><li><a href="global.html#excessReport">excessReport</a></li><li><a href="global.html#fetchAddOns">fetchAddOns</a></li><li><a href="global.html#fetchMenuItems">fetchMenuItems</a></li><li><a href="global.html#getAddOns">getAddOns</a></li><li><a href="global.html#getAllEmployeeShifts">getAllEmployeeShifts</a></li><li><a href="global.html#getAllShifts">getAllShifts</a></li><li><a href="global.html#getEmployees">getEmployees</a></li><li><a href="global.html#getInventory">getInventory</a></li><li><a href="global.html#getMenu">getMenu</a></li><li><a href="global.html#getMenuItemAddOns">getMenuItemAddOns</a></li><li><a href="global.html#getMenuItemAddOnsNames">getMenuItemAddOnsNames</a></li><li><a href="global.html#getMenuItemInventoryItems">getMenuItemInventoryItems</a></li><li><a href="global.html#getMenuItemInventoryItemsNames">getMenuItemInventoryItemsNames</a></li><li><a href="global.html#getOrders">getOrders</a></li><li><a href="global.html#getSingleAddOn">getSingleAddOn</a></li><li><a href="global.html#getSingleEmployee">getSingleEmployee</a></li><li><a href="global.html#getSingleEmployeeShifts">getSingleEmployeeShifts</a></li><li><a href="global.html#getSingleInventoryItem">getSingleInventoryItem</a></li><li><a href="global.html#getSingleMenuItem">getSingleMenuItem</a></li><li><a href="global.html#getSingleOrder">getSingleOrder</a></li><li><a href="global.html#getSingleShift">getSingleShift</a></li><li><a href="global.html#menuItemsPopularity">menuItemsPopularity</a></li><li><a href="global.html#menuItemsReducer">menuItemsReducer</a></li><li><a href="global.html#orderReducer">orderReducer</a></li><li><a href="global.html#processWeatherData">processWeatherData</a></li><li><a href="global.html#restockInventoryItem">restockInventoryItem</a></li><li><a href="global.html#restockReport">restockReport</a></li><li><a href="global.html#salesReport">salesReport</a></li><li><a href="global.html#setAddOnInventoryItem">setAddOnInventoryItem</a></li><li><a href="global.html#setAddOnName">setAddOnName</a></li><li><a href="global.html#setAddOnPrice">setAddOnPrice</a></li><li><a href="global.html#updateAddons">updateAddons</a></li><li><a href="global.html#updateDayOfWeek">updateDayOfWeek</a></li><li><a href="global.html#updateEmployeeId">updateEmployeeId</a></li><li><a href="global.html#updateEmployeeName">updateEmployeeName</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updateEmployeePosition">updateEmployeePosition</a></li><li><a href="global.html#updateEmployeeSalary">updateEmployeeSalary</a></li><li><a href="global.html#updateEmployeeStartDate">updateEmployeeStartDate</a></li><li><a href="global.html#updateEmployeeUsername">updateEmployeeUsername</a></li><li><a href="global.html#updateInventoryItemAmountRemaining">updateInventoryItemAmountRemaining</a></li><li><a href="global.html#updateInventoryItemAmountUsed">updateInventoryItemAmountUsed</a></li><li><a href="global.html#updateInventoryItemLastRestockDate">updateInventoryItemLastRestockDate</a></li><li><a href="global.html#updateInventoryItemMinimumAmount">updateInventoryItemMinimumAmount</a></li><li><a href="global.html#updateInventoryItemName">updateInventoryItemName</a></li><li><a href="global.html#updateMenuItemAddOns">updateMenuItemAddOns</a></li><li><a href="global.html#updateMenuItemInventoryItems">updateMenuItemInventoryItems</a></li><li><a href="global.html#updateMenuItemName">updateMenuItemName</a></li><li><a href="global.html#updateMenuItemPrice">updateMenuItemPrice</a></li><li><a href="global.html#updateMenuItems">updateMenuItems</a></li><li><a href="global.html#updateMonth">updateMonth</a></li><li><a href="global.html#updateShiftEndTime">updateShiftEndTime</a></li><li><a href="global.html#updateShiftId">updateShiftId</a></li><li><a href="global.html#updateShiftStartTime">updateShiftStartTime</a></li><li><a href="global.html#useInventoryItem">useInventoryItem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 20:02:15 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

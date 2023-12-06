@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/Translate.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/Translate.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import "./Translate.css";
+// import { Dialog } from '@headlessui/react';
+import { Dialog, List, ListItem, ListItemButton, ListItemText, IconButton, DialogTitle, Box, Badge } from '@mui/material';
+import TranslateIcon from '@mui/icons-material/Translate';
+
+const API_KEY = process.env.REACT_APP_GOOGLE_TL_API_KEY;
+// console.log(API_KEY);
+const API_URL = 'https://translation.googleapis.com/language/translate/v2';
+const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:9000";
+
+const langAbbrevs = {
+    'Afrikaans': 'af',
+    'Albanian': 'sq',
+    'Amharic': 'am',
+    'Arabic': 'ar',
+    'Armenian': 'hy',
+    'Assamese': 'as',
+    'Aymara': 'ay',
+    'Azerbaijani': 'az',
+    'Bambara': 'bm',
+    'Basque': 'eu',
+    'Belarusian': 'be',
+    'Bengali': 'bn',
+    'Bhojpuri': 'bho',
+    'Bosnian': 'bs',
+    'Bulgarian': 'bg',
+    'Catalan': 'ca',
+    'Cebuano': 'ceb',
+    'Chinese (Simplified)': 'zh-CN',
+    'Chinese (Traditional)': 'zh-TW',
+    'Corsican': 'co',
+    'Croatian': 'hr',
+    'Czech': 'cs',
+    'Danish': 'da',
+    'Dhivehi': 'dv',
+    'Dogri': 'doi',
+    'Dutch': 'nl',
+    'English': 'en',
+    'Esperanto': 'eo',
+    'Estonian': 'et',
+    'Ewe': 'ee',
+    'Filipino (Tagalog)': 'fil',
+    'Finnish': 'fi',
+    'French': 'fr',
+    'Frisian': 'fy',
+    'Galician': 'gl',
+    'Georgian': 'ka',
+    'German': 'de',
+    'Greek': 'el',
+    'Guarani': 'gn',
+    'Gujarati': 'gu',
+    'Haitian (Creole)': 'ht',
+    'Hausa': 'ha',
+    'Hawaiian': 'haw',
+    'Hebrew': 'he',
+    'Hindi': 'hi',
+    'Hmong': 'hmn',
+    'Hungarian': 'hu',
+    'Icelandic': 'is',
+    'Igbo': 'ig',
+    'Ilocano': 'ilo',
+    'Indonesian': 'id',
+    'Irish': 'ga',
+    'Italian': 'it',
+    'Japanese': 'ja',
+    'Javanese': 'jv',
+    'Kannada': 'kn',
+    'Kazakh': 'kk',
+    'Khmer': 'km',
+    'Kinyarwanda': 'rw',
+    'Konkani': 'gom',
+    'Korean': 'ko',
+    'Krio': 'kri',
+    'Kurdish': 'ku',
+    'Kurdish (Sorani)': 'ckb',
+    'Kyrgyz': 'ky',
+    'Lao': 'lo',
+    'Latin': 'la',
+    'Latvian': 'lv',
+    'Lingala': 'ln',
+    'Lithuanian': 'lt',
+    'Luganda': 'lg',
+    'Luxembourgish': 'lb',
+    'Macedonian': 'mk',
+    'Maithili': 'mai',
+    'Malagasy': 'mg',
+    'Malay': 'ms',
+    'Malayalam': 'ml',
+    'Maltese': 'mt',
+    'Maori': 'mi',
+    'Marathi': 'mr',
+    'Meiteilon (Manipuri)': 'mni-Mtei',
+    'Mizo': 'lus',
+    'Mongolian': 'mn',
+    'Myanmar (Burmese)': 'my',
+    'Nepali': 'ne',
+    'Norwegian': 'no',
+    'Nyanja (Chichewa)': 'ny',
+    'Odia (Oriya)': 'or',
+    'Oromo': 'om',
+    'Pashto': 'ps',
+    'Persian': 'fa',
+    'Polish': 'pl',
+    'Portuguese (Portugal, Brazil)': 'pt',
+    'Punjabi': 'pa',
+    'Quechua': 'qu',
+    'Romanian': 'ro',
+    'Russian': 'ru',
+    'Samoan': 'sm',
+    'Sanskrit': 'sa',
+    'Scots (Gaelic)': 'gd',
+    'Sepedi': 'nso',
+    'Serbian': 'sr',
+    'Sesotho': 'st',
+    'Shona': 'sn',
+    'Sindhi': 'sd',
+    'Sinhala (Sinhalese)': 'si',
+    'Slovak': 'sk',
+    'Slovenian': 'sl',
+    'Somali': 'so',
+    'Spanish': 'es',
+    'Sundanese': 'su',
+    'Swahili': 'sw',
+    'Swedish': 'sv',
+    'Tagalog (Filipino)': 'tl',
+    'Tajik': 'tg',
+    'Tamil': 'ta',
+    'Tatar': 'tt',
+    'Telugu': 'te',
+    'Thai': 'th',
+    'Tigrinya': 'ti',
+    'Tsonga': 'ts',
+    'Turkish': 'tr',
+    'Turkmen': 'tk',
+    'Twi (Akan)': 'ak',
+    'Ukrainian': 'uk',
+    'Urdu': 'ur',
+    'Uyghur': 'ug',
+    'Uzbek': 'uz',
+    'Vietnamese': 'vi',
+    'Welsh': 'cy',
+    'Xhosa': 'xh',
+    'Yiddish': 'yi',
+    'Yoruba': 'yo',
+    'Zulu': 'z',    
+}
+
+const langAbbrevs2 = {
+    'Afrikaans': 'af',
+    'Shqip': 'sq',
+    'አማርኛ': 'am',
+    'العربية': 'ar',
+    'Հայերեն': 'hy',
+    'অসমীয়া': 'as',
+    'aymar aru': 'ay',
+    'azərbaycan dili': 'az',
+    'bamanankan': 'bm',
+    'euskara': 'eu',
+    'Беларуская': 'be',
+    'বাংলা': 'bn',
+    'भोजपुरी': 'bho',
+    'bosanski jezik': 'bs',
+    'български език': 'bg',
+    'Català': 'ca',
+    'Cebuano': 'ceb',
+    '中文 (简体)': 'zh-CN',
+    '中文 (繁体)': 'zh-TW',
+    'corsu': 'co',
+    'hrvatski': 'hr',
+    'česky': 'cs',
+    'dansk': 'da',
+    'ދިވެހި': 'dv',
+    '𑠖𑠵𑠌𑠤𑠮': 'doi',
+    'Nederlands': 'nl',
+    'English': 'en',
+    'Esperanto': 'eo',
+    'eesti': 'et',
+    'Eʋegbe': 'ee',
+    'Filipino': 'fil',
+    'suomi': 'fi',
+    'français': 'fr',
+    'Frysk': 'fy',
+    'Galego': 'gl',
+    'ქართული': 'ka',
+    'Deutsch': 'de',
+    'Ελληνικά': 'el',
+    'Avañeẽ': 'gn',
+    'ગુજરાતી': 'gu',
+    'Kreyòl ayisyen': 'ht',
+    'Hausa': 'ha',
+    'Ōlelo Hawaiʻi': 'haw',
+    'עברית': 'he',
+    'हिन्दी': 'hi',
+    '𞄀𞄩𞄰‎': 'hmn',
+    'Magyar': 'hu',
+    'Íslenska': 'is',
+    'Asụsụ Igbo': 'ig',
+    'Ilocano': 'ilo',
+    'Bahasa Indonesia': 'id',
+    'Gaeilge': 'ga',
+    'Italiano': 'it',
+    '日本語': 'ja',
+    'basa Jawa': 'jv',
+    'ಕನ್ನಡ': 'kn',
+    'Қазақ тілі': 'kk',
+    'ភាសាខ្មែរ': 'km',
+    'Ikinyarwanda': 'rw',
+    'कोंकणी': 'gom',
+    '한국어': 'ko',
+    'Krio': 'kri',
+    'كوردی‎': 'ku',
+    'سۆرانی': 'ckb',
+    'кыргыз тили': 'ky',
+    'ພາສາລາວ': 'lo',
+    'latine, lingua latina': 'la',
+    'latviešu valoda': 'lv',
+    'Lingála': 'ln',
+    'lietuvių kalba': 'lt',
+    'Luganda': 'lg',
+    'Lëtzebuergesch': 'lb',
+    'македонски јазик': 'mk',
+    'Maithili': 'mai',
+    'Malagasy fiteny': 'mg',
+    'بهاس ملايو‎': 'ms',
+    'മലയാളം': 'ml',
+    'Malti': 'mt',
+    'te reo Māori': 'mi',
+    'मराठी': 'mr',
+    'Meiteilon': 'mni-Mtei',
+    'Mizo': 'lus',
+    'монгол': 'mn',
+    'ဗမာစာ': 'my',
+    'नेपाली': 'ne',
+    'Norsk': 'no',
+    'chiCheŵa': 'ny',
+    'ଓଡ଼ିଆ': 'or',
+    'Afaan Oromoo': 'om',
+    'پښتو': 'ps',
+    'فارسی': 'fa',
+    'polski': 'pl',
+    'português ': 'pt',
+    'ਪੰਜਾਬੀ‎': 'pa',
+    'Runa Simi': 'qu',
+    'română': 'ro',
+    'русский язык': 'ru',
+    'gagana faa Samoa': 'sm',
+    'संस्कृतम्': 'sa',
+    'Scots Gaelic': 'gd',
+    'Sepedi': 'nso',
+    'српски језик': 'sr',
+    'Sesotho': 'st',
+    'chiShona': 'sn',
+    'सिन्धी‎': 'sd',
+    'Sinhala': 'si',
+    'slovenčina': 'sk',
+    'slovenščina': 'sl',
+    'Soomaaliga': 'so',
+    'español': 'es',
+    'Basa Sunda': 'su',
+    'Kiswahili': 'sw',
+    'svenska': 'sv',
+    'Wikang Tagalog': 'tl',
+    'тоҷикӣ‎': 'tg',
+    'தமிழ்': 'ta',
+    'татарча‎': 'tt',
+    'తెలుగు': 'te',
+    'ไทย': 'th',
+    'ትግርኛ': 'ti',
+    'Xitsonga': 'ts',
+    'Türkçe': 'tr',
+    'Türkmen': 'tk',
+    'Twi': 'ak',
+    'українська': 'uk',
+    'اردو': 'ur',
+    'Uyƣurqə‎': 'ug',
+    'zbek‎': 'uz',
+    'Tiếng Việt': 'vi',
+    'Cymraeg': 'cy',
+    'isiXhosa': 'xh',
+    'ייִדיש': 'yi',
+    'Yorùbá': 'yo',
+    'Zulu': 'zu',
+}
+
+// const dropDownSymbol = 'V';
+
+/**
+ * The language dialog popup used in the header.
+ * @param {Function} setDoTL - a function that changes the state of the translation boolean for a rerender
+ * @returns void
+ */
+export function LanguageDialog({setDoTL}) {
+    let [isOpen, setIsOpen] = useState(false);
+    const [ translationText, setTranslationText ] = useState([]);
+
+    useEffect(() => {
+        // console.log('b');
+        if (isOpen) {
+            var text = ['Select Language'];
+            TranslateBulk(text, setTranslationText);
+        }
+    }, [isOpen])
+
+    const ChangeLanguage = (name, language) => {
+        sessionStorage.setItem("language", language);
+        sessionStorage.setItem("languageName", name);
+        // window.location.reload(false);
+        setDoTL(true);
+        setIsOpen(false);
+    }
+
+    // function languageBadgeContent() {
+    //     if (sessionStorage.getItem("languageName") === null || sessionStorage.getItem("languageName") === 'English') {
+    //         return '';
+    //     }
+    //     return sessionStorage.getItem("languageName");
+    // }
+
+    // function languageBadgeShow() {
+    //     if (sessionStorage.getItem("languageName") === null || sessionStorage.getItem("languageName") === 'English') {
+    //         console.log("yay");
+    //         return false;
+    //     }
+    //     console.log('huh');
+    //     return true;
+    // }
+
+    return (
+            &lt;div>
+            &lt;IconButton 
+                onClick={() => setIsOpen(true)} 
+                aria-label="Languages"
+                sx={{ color: 'white' }} // Apply white color to the icon
+                >
+                {/* {
+                    languageBadgeShow() ? 
+                    &lt;Badge badgeContent={languageBadgeContent()} color="secondary"
+                        anchorOrigin={{vertical: 'bottom', horizontal: 'bottom'}}
+                        sx={{ "&amp; .MuiBadge-badge": { fontSize: 9, maxWidth: 1000 } }}
+                    >
+                        &lt;TranslateIcon />
+                    &lt;/Badge>
+                    :
+                    &lt;TranslateIcon />
+                } */}
+                &lt;TranslateIcon />
+                &lt;/IconButton>
+                {isOpen &amp;&amp;
+                &lt;Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
+                    &lt;DialogTitle>{translationText[0] || 'Select Language'}&lt;/DialogTitle>
+                    &lt;List>
+                    {Object.entries(langAbbrevs2).map(([k, v]) => (
+                        &lt;ListItem
+                        key={k}
+                        disablePadding
+                        dense
+                        >
+                        &lt;ListItemButton onClick={() => ChangeLanguage(k,v)}>
+                            &lt;ListItemText primary={k} />
+                        &lt;/ListItemButton>
+                        &lt;/ListItem>
+                    ))}
+                    &lt;/List>
+                &lt;/Dialog>
+                }
+            &lt;/div>
+    );
+}
+
+/**
+ * Gets the translation language stored in sessionStorage
+ * @returns the language or 'en' if null
+ */
+const GetTranslateLanguage = () => {
+    return (sessionStorage.getItem("language") !== null) ? sessionStorage.getItem("language") : 'en';
+}
+
+/**
+ * Calls the Google Translate API to translate the text in textArray (if any) if the language is not English
+ * and changes the state of the variable that holds the translations.
+ * @param {Array} textArray - the text to be translated
+ * @param {Function} setTranslation - the function that changes the state variable holding the array of translations for rerendering
+ */
+export const TranslateBulk = (textArray, setTranslation) => {
+    var tLang = GetTranslateLanguage();
+    const translate = () => {
+        const sendRequest = async () => {
+            var translateURL = API_URL;
+            translateURL += '?key='+API_KEY;
+            for (const text of textArray) {
+                translateURL += '&amp;q='+encodeURI(text);
+            }
+            translateURL += '&amp;source=en';
+            translateURL += '&amp;target='+tLang;
+            try {
+                const response = await fetch(translateURL, {
+                    method: 'POST',
+                    referrer: window.location.href
+                });
+                // console.log(response.body);
+                const res = await response.json();
+                // var temp2 = ["你好", "再见"];
+                var temp = [];
+                for (const text of res.data.translations) {
+                    temp.push(text.translatedText);
+                }
+                console.log(temp);
+                setTranslation(temp);
+                // return temp;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        sendRequest();
+    }
+    if (tLang != 'en' &amp;&amp; textArray.length > 0) {
+        translate();
+    }
+    else {
+        // translations = textArray;
+        setTranslation(textArray);
+    }
+    // setDoTL(false);
+    // console.log(translations);
+    // console.log(tLang);
+    // return translations;
+};
+
+/**
+ * Calls the Google Translate API to translate 'text' (if any) if the language is not English
+ * and changes the state of the variable that holds the translation.
+ * @param {String} text - the text to be translated
+ * @param {Function} setTranslation - the function that sets the state variable that holds the translation for rerendering
+ */
+export const TranslateText = (text, setTranslation) => {
+    // var translation = text;
+    var tLang = GetTranslateLanguage();
+    
+    const translate = () => {
+        const sendRequest = async () => {
+            var translateURL = API_URL;
+            translateURL += '?key='+API_KEY;
+            translateURL += '&amp;q='+encodeURI(text);
+            translateURL += '&amp;source=en';
+            translateURL += '&amp;target='+tLang;
+            try {
+                const response = await fetch(translateURL, {
+                    method: 'POST',
+                    referrer: window.location.href
+                });
+                const res = await response.json();
+                var temp = [];
+                for (const text of res.data.translations) {
+                    temp.push(text.translatedText);
+                }
+                // console.log(temp);
+                console.log(temp[0]);
+                setTranslation(temp[0]);
+                // return temp;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        sendRequest();
+    }
+    if (tLang !== 'en' &amp;&amp; text.length > 0) {
+        translate();
+    }
+    else {
+        setTranslation(text);
+    }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AccountButton">AccountButton</a></li><li><a href="global.html#AddAddOns">AddAddOns</a></li><li><a href="global.html#AddOnDialog">AddOnDialog</a></li><li><a href="global.html#AddOnsCheckbox">AddOnsCheckbox</a></li><li><a href="global.html#AlleyBackgroundVideo">AlleyBackgroundVideo</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CashierPOS">CashierPOS</a></li><li><a href="global.html#CheckoutDialog">CheckoutDialog</a></li><li><a href="global.html#CustomerPOS">CustomerPOS</a></li><li><a href="global.html#EditDialog">EditDialog</a></li><li><a href="global.html#GenerateMenu">GenerateMenu</a></li><li><a href="global.html#GetTranslateLanguage">GetTranslateLanguage</a></li><li><a href="global.html#LandingPage">LandingPage</a></li><li><a href="global.html#LanguageDialog">LanguageDialog</a></li><li><a href="global.html#LinkTab">LinkTab</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItemCard">MenuItemCard</a></li><li><a href="global.html#Order">Order</a></li><li><a href="global.html#TranslateBulk">TranslateBulk</a></li><li><a href="global.html#TranslateText">TranslateText</a></li><li><a href="global.html#Weather">Weather</a></li><li><a href="global.html#addAddOn">addAddOn</a></li><li><a href="global.html#addEmployee">addEmployee</a></li><li><a href="global.html#addEmployeeShift">addEmployeeShift</a></li><li><a href="global.html#addInventoryItem">addInventoryItem</a></li><li><a href="global.html#addItemToOrder">addItemToOrder</a></li><li><a href="global.html#addMenuItem">addMenuItem</a></li><li><a href="global.html#addOrder">addOrder</a></li><li><a href="global.html#addShift">addShift</a></li><li><a href="global.html#addonsReducer">addonsReducer</a></li><li><a href="global.html#clearAddons">clearAddons</a></li><li><a href="global.html#clearMenuItems">clearMenuItems</a></li><li><a href="global.html#clearOrder">clearOrder</a></li><li><a href="global.html#deleteAddOn">deleteAddOn</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#deleteEmployeeShift">deleteEmployeeShift</a></li><li><a href="global.html#deleteInventoryItem">deleteInventoryItem</a></li><li><a href="global.html#deleteMenuItem">deleteMenuItem</a></li><li><a href="global.html#deleteOrder">deleteOrder</a></li><li><a href="global.html#deleteShift">deleteShift</a></li><li><a href="global.html#excessReport">excessReport</a></li><li><a href="global.html#fetchAddOns">fetchAddOns</a></li><li><a href="global.html#fetchMenuItems">fetchMenuItems</a></li><li><a href="global.html#getAddOns">getAddOns</a></li><li><a href="global.html#getAllEmployeeShifts">getAllEmployeeShifts</a></li><li><a href="global.html#getAllShifts">getAllShifts</a></li><li><a href="global.html#getEmployees">getEmployees</a></li><li><a href="global.html#getInventory">getInventory</a></li><li><a href="global.html#getMenu">getMenu</a></li><li><a href="global.html#getMenuItemAddOns">getMenuItemAddOns</a></li><li><a href="global.html#getMenuItemAddOnsNames">getMenuItemAddOnsNames</a></li><li><a href="global.html#getMenuItemInventoryItems">getMenuItemInventoryItems</a></li><li><a href="global.html#getMenuItemInventoryItemsNames">getMenuItemInventoryItemsNames</a></li><li><a href="global.html#getOrders">getOrders</a></li><li><a href="global.html#getSingleAddOn">getSingleAddOn</a></li><li><a href="global.html#getSingleEmployee">getSingleEmployee</a></li><li><a href="global.html#getSingleEmployeeShifts">getSingleEmployeeShifts</a></li><li><a href="global.html#getSingleInventoryItem">getSingleInventoryItem</a></li><li><a href="global.html#getSingleMenuItem">getSingleMenuItem</a></li><li><a href="global.html#getSingleOrder">getSingleOrder</a></li><li><a href="global.html#getSingleShift">getSingleShift</a></li><li><a href="global.html#menuItemsPopularity">menuItemsPopularity</a></li><li><a href="global.html#menuItemsReducer">menuItemsReducer</a></li><li><a href="global.html#orderReducer">orderReducer</a></li><li><a href="global.html#processWeatherData">processWeatherData</a></li><li><a href="global.html#restockInventoryItem">restockInventoryItem</a></li><li><a href="global.html#restockReport">restockReport</a></li><li><a href="global.html#salesReport">salesReport</a></li><li><a href="global.html#setAddOnInventoryItem">setAddOnInventoryItem</a></li><li><a href="global.html#setAddOnName">setAddOnName</a></li><li><a href="global.html#setAddOnPrice">setAddOnPrice</a></li><li><a href="global.html#updateAddons">updateAddons</a></li><li><a href="global.html#updateDayOfWeek">updateDayOfWeek</a></li><li><a href="global.html#updateEmployeeId">updateEmployeeId</a></li><li><a href="global.html#updateEmployeeName">updateEmployeeName</a></li><li><a href="global.html#updateEmployeePassword">updateEmployeePassword</a></li><li><a href="global.html#updateEmployeePosition">updateEmployeePosition</a></li><li><a href="global.html#updateEmployeeSalary">updateEmployeeSalary</a></li><li><a href="global.html#updateEmployeeStartDate">updateEmployeeStartDate</a></li><li><a href="global.html#updateEmployeeUsername">updateEmployeeUsername</a></li><li><a href="global.html#updateInventoryItemAmountRemaining">updateInventoryItemAmountRemaining</a></li><li><a href="global.html#updateInventoryItemAmountUsed">updateInventoryItemAmountUsed</a></li><li><a href="global.html#updateInventoryItemLastRestockDate">updateInventoryItemLastRestockDate</a></li><li><a href="global.html#updateInventoryItemMinimumAmount">updateInventoryItemMinimumAmount</a></li><li><a href="global.html#updateInventoryItemName">updateInventoryItemName</a></li><li><a href="global.html#updateMenuItemAddOns">updateMenuItemAddOns</a></li><li><a href="global.html#updateMenuItemInventoryItems">updateMenuItemInventoryItems</a></li><li><a href="global.html#updateMenuItemName">updateMenuItemName</a></li><li><a href="global.html#updateMenuItemPrice">updateMenuItemPrice</a></li><li><a href="global.html#updateMenuItems">updateMenuItems</a></li><li><a href="global.html#updateMonth">updateMonth</a></li><li><a href="global.html#updateShiftEndTime">updateShiftEndTime</a></li><li><a href="global.html#updateShiftId">updateShiftId</a></li><li><a href="global.html#updateShiftStartTime">updateShiftStartTime</a></li><li><a href="global.html#useInventoryItem">useInventoryItem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 20:02:15 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
